@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dr3av80rwwqwb"]
+
+[ext_resource type="Script" uid="uid://du1oddbbp34tp" path="res://elements/plant/plant.gd" id="1_3x88q"]
+[ext_resource type="Texture2D" uid="uid://87l5rc6m4wxw" path="res://icon.svg" id="2_abyum"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abyum"]
+
+[node name="Plant" type="ShapeCast2D"]
+enabled = false
+shape = SubResource("RectangleShape2D_abyum")
+script = ExtResource("1_3x88q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="Collider" type="StaticBody2D" parent="." groups=["plant_colliders"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_abyum")
