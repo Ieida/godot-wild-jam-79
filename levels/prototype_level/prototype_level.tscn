@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dumgt3u0r5i1i"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tucxw"]
+
+[sub_resource type="Sky" id="Sky_moabb"]
+sky_material = SubResource("ProceduralSkyMaterial_tucxw")
+
+[sub_resource type="Environment" id="Environment_8nyvn"]
+background_mode = 2
+sky = SubResource("Sky_moabb")
+tonemap_mode = 3
+
+[node name="PrototypeLevel" type="Node2D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8nyvn")
