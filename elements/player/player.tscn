@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bd5qcs08srar7"]
+[gd_scene load_steps=9 format=3 uid="uid://bd5qcs08srar7"]
 
 [ext_resource type="Script" uid="uid://dmjgiq3pyu8oh" path="res://ui/slot_holder.gd" id="1_b51c3"]
 [ext_resource type="PackedScene" uid="uid://hb44if87lvqr" path="res://ui/slot/ui_slot.tscn" id="2_338lt"]
-[ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="3_h2kxm"]
+[ext_resource type="PackedScene" uid="uid://00o16vqo5xxv" path="res://plants/mushroom/mushroom.tscn" id="3_338lt"]
 [ext_resource type="Script" uid="uid://djkw4r8ipr3n8" path="res://ui/slot/ui_slot_item_plant.gd" id="4_yd248"]
+[ext_resource type="Texture2D" uid="uid://cy2ym7ngwwdbv" path="res://assets/mushroom.png" id="5_338lt"]
 
 [sub_resource type="GDScript" id="GDScript_b51c3"]
 resource_name = "planter"
@@ -22,6 +23,9 @@ func _move_plant_to_mouse():
 
 
 func _on_selected_slot(slot: UISlot):
+	if plant:
+		plant.queue_free()
+		can_be_planted = false
 	var slot_item = slot.item as UISlotItemPlant
 	if slot_item and slot_item.plant_scene:
 		var new_plant = slot_item.plant_scene.instantiate() as Plant
@@ -54,8 +58,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 [sub_resource type="Resource" id="Resource_2sqnu"]
 script = ExtResource("4_yd248")
-plant_scene = ExtResource("3_h2kxm")
+plant_scene = ExtResource("3_338lt")
 metadata/_custom_type_script = "uid://djkw4r8ipr3n8"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2kxm"]
+atlas = ExtResource("5_338lt")
+region = Rect2(96, 0, 32, 32)
 
 [node name="Player" type="Node"]
 
@@ -85,3 +93,10 @@ script = ExtResource("1_b51c3")
 [node name="UISlot" parent="UI/MarginContainer/PlantSlots" instance=ExtResource("2_338lt")]
 layout_mode = 2
 item = SubResource("Resource_2sqnu")
+
+[node name="TextureRect" parent="UI/MarginContainer/PlantSlots/UISlot" index="0"]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_h2kxm")
+
+[editable path="UI/MarginContainer/PlantSlots/UISlot"]

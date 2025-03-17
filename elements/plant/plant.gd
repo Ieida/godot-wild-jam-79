@@ -2,6 +2,11 @@ class_name Plant extends ShapeCast2D
 
 
 @onready var collider: StaticBody2D = $Collider
+var age: float
+
+
+func _physics_process(delta: float) -> void:
+	age += delta
 
 
 func _ready() -> void:
@@ -23,6 +28,8 @@ func can_be_planted() -> bool:
 func plant():
 	if not is_colliding(): return
 	
-	var pos = target_position * get_closest_collision_safe_fraction()
-	global_position = to_global(pos)
+	var pos = get_collision_point(0)
+	pos.x = global_position.x
+	pos.y -= 10.0
+	global_position = pos
 	collider.process_mode = Node.PROCESS_MODE_INHERIT
