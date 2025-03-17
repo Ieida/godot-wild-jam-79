@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://ddivstsp7iqvx"]
+[gd_scene load_steps=4 format=3 uid="uid://ddivstsp7iqvx"]
 
 [ext_resource type="Script" uid="uid://d1sodedm54bqr" path="res://game/game.gd" id="1_l1rk1"]
+[ext_resource type="PackedScene" uid="uid://dumgt3u0r5i1i" path="res://levels/prototype_level/prototype_level.tscn" id="2_vasa2"]
+[ext_resource type="PackedScene" uid="uid://brvmab4otdptx" path="res://menus/pause/pause_menu.tscn" id="3_h7iqs"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_l1rk1")
 
 [node name="Levels" type="Node" parent="."]
 
+[node name="PrototypeLevel" parent="Levels" instance=ExtResource("2_vasa2")]
+
 [node name="Menus" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="Menus" instance=ExtResource("3_h7iqs")]

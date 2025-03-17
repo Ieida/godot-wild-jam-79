@@ -1,4 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dumgt3u0r5i1i"]
+[gd_scene load_steps=5 format=3 uid="uid://dumgt3u0r5i1i"]
+
+[sub_resource type="GDScript" id="GDScript_tucxw"]
+resource_name = "prototype_level"
+script/source = "extends Level
+"
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tucxw"]
 
@@ -11,6 +16,7 @@ sky = SubResource("Sky_moabb")
 tonemap_mode = 3
 
 [node name="PrototypeLevel" type="Node2D"]
+script = SubResource("GDScript_tucxw")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8nyvn")
