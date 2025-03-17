@@ -1,0 +1,16 @@
+Programming
+-----------
+
+
+
+
+Assets
+------
+[ ] Central Tree
+[ ] Player Character
+    [ ] idle Animation
+    [ ] walk Animation
+[ ] Tilemap
+[ ] Plant/Towers
+[ ] Enemies
+    [ ] come up with types of enemies here
