@@ -1,10 +1,15 @@
 class_name Plant extends ShapeCast2D
 
 
-@onready var collider: StaticBody2D = $Collider
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## How much time for the plant to age 1 year
-@export var age_speed: float = 1.0
+@export var age_speed: float = 1
+## Amount of time between each attack
+@export var attack_cooldown: float = 1
+@export var damage: float = 20
+@export var max_age: float
+@onready var collider: CollisionObject2D = $Collider
+@onready var hitbox: Hitbox = $Hitbox
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var age: float
 var planted: bool
 
@@ -22,7 +27,7 @@ func can_be_planted() -> bool:
 	force_shapecast_update()
 	if is_colliding():
 		for coll_index in get_collision_count():
-			var coll = get_collider(coll_index) as StaticBody2D
+			var coll = get_collider(coll_index) as CollisionObject2D
 			if coll and coll.is_in_group(&"plant_colliders"):
 				return false
 		return true

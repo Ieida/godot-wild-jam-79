@@ -17,7 +17,10 @@ func activate_state(state_name: StringName):
 	if not states.has(state_name): return
 	
 	var state := states[state_name]
-	if active_state != NULL_STATE:
+	if active_state == NULL_STATE:
+		active_state = state_name
+		state.set_active(true)
+	else:
 		var actv_state := states[active_state]
 		if state_name == active_state:
 			if actv_state.reactivate:
@@ -26,9 +29,6 @@ func activate_state(state_name: StringName):
 			actv_state.set_active(false)
 			active_state = state_name
 			state.set_active(true)
-	else:
-		active_state = state_name
-		state.set_active(true)
 
 
 func deactivate_state():
