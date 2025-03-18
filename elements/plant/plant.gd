@@ -2,11 +2,15 @@ class_name Plant extends ShapeCast2D
 
 
 @onready var collider: StaticBody2D = $Collider
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+## How much time for the plant to age 1 year
+@export var age_speed: float = 1.0
 var age: float
+var planted: bool
 
 
 func _physics_process(delta: float) -> void:
-	age += delta
+	if planted: age += (1.0 / age_speed) * delta
 
 
 func _ready() -> void:
@@ -33,3 +37,4 @@ func plant():
 	pos.y -= 10.0
 	global_position = pos
 	collider.process_mode = Node.PROCESS_MODE_INHERIT
+	planted = true

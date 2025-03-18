@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://00o16vqo5xxv"]
+[gd_scene load_steps=22 format=3 uid="uid://00o16vqo5xxv"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_joivf"]
 [ext_resource type="Texture2D" uid="uid://cy2ym7ngwwdbv" path="res://assets/mushroom.png" id="2_vr1oj"]
@@ -150,8 +150,33 @@ animations = [{
 "speed": 14.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_joivf"]
+resource_name = "idle"
+script/source = "extends State
+
+
+@export var max_age: float
+@onready var plant: Plant = $\"../..\"
+
+
+func _physics_process(_delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+	
+	var age = minf(max_age, plant.age)
+	# Play animation based on age
+	var anim_name = &\"age_%s\" % (floori(age) + 1)
+	plant.sprite.play(anim_name)
+
+
+func should_enter() -> bool:
+	if machine.active_state == NULL_STATE: return true
+	return false
+"
+
 [node name="Mushroom" instance=ExtResource("1_joivf")]
 target_position = Vector2(0, 0)
+age_speed = 10.0
 
 [node name="CollisionShape2D" parent="Collider" index="0"]
 shape = SubResource("RectangleShape2D_joivf")
@@ -162,3 +187,8 @@ sprite_frames = SubResource("SpriteFrames_130wy")
 animation = &"attack"
 autoplay = "age_1"
 offset = Vector2(32, -5)
+
+[node name="idle" type="Node" parent="StateMachine" index="0"]
+script = SubResource("GDScript_joivf")
+max_age = 3.0
+metadata/_custom_type_script = "uid://byfntbxlic2sm"
