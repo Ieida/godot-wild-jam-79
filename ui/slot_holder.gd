@@ -31,5 +31,5 @@ func _ready() -> void:
 
 
 func deselect_all():
-	selected_slot.set_pressed_no_signal(true)
+	selected_slot.set_pressed_no_signal(false)
 	selected_slot = null

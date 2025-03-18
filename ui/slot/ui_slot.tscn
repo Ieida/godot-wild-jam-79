@@ -1,19 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://hb44if87lvqr"]
+[gd_scene load_steps=7 format=3 uid="uid://hb44if87lvqr"]
 
 [ext_resource type="Texture2D" uid="uid://87l5rc6m4wxw" path="res://icon.svg" id="1_gakye"]
 [ext_resource type="Script" uid="uid://c2l2nxl4m4sj5" path="res://ui/slot/ui_slot.gd" id="1_w1gk8"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1gk8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dyeb"]
 content_margin_left = 16.0
 content_margin_top = 16.0
 content_margin_right = 16.0
 content_margin_bottom = 16.0
-bg_color = Color(0, 0, 0, 0.498039)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.1, 1, 0.94, 1)
+bg_color = Color(0, 0, 0, 0.666667)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -30,6 +25,17 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.75, 0.75, 0.75, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1gk8"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.1, 1, 0.94, 0.498039)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -66,7 +72,7 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(32, 32)
-theme_override_styles/focus = SubResource("StyleBoxFlat_w1gk8")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3dyeb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wdj8w")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_w1gk8")
 theme_override_styles/normal = SubResource("StyleBoxFlat_gakye")

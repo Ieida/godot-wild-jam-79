@@ -40,7 +40,9 @@ func _physics_process(_delta: float) -> void:
 		can_be_planted = plant.can_be_planted()
 
 
-func _plant():
+func _try_to_plant():
+	if not plant or not can_be_planted: return
+	
 	plant.plant()
 	plant = null
 	slot_holder.deselect_all()
@@ -51,9 +53,9 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if plant and can_be_planted and event.is_action(&\"plant_confirm\"):
+	if event.is_action(&\"plant_confirm\"):
 		if event.is_pressed() and not event.is_echo():
-			_plant()
+			_try_to_plant()
 "
 
 [sub_resource type="Resource" id="Resource_2sqnu"]
