@@ -27,7 +27,7 @@ func can_be_planted() -> bool:
 	force_shapecast_update()
 	if is_colliding():
 		for coll_index in get_collision_count():
-			var coll = get_collider(coll_index) as StaticBody2D
+			var coll = get_collider(coll_index) as CollisionObject2D
 			if coll and coll.is_in_group(&"plant_colliders"):
 				return false
 		return true
