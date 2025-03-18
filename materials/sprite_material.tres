@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cql3f8ciqqh5s"]
+
+[ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="1_hmyub"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_hmyub")
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
