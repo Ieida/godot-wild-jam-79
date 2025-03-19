@@ -30,12 +30,13 @@ noise = SubResource("FastNoiseLite_3grcs")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4haeq"]
 shader = ExtResource("4_jqx64")
+shader_parameter/pixel_size = 128.0
 shader_parameter/color = Color(1, 0.952, 0.92, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 2.0
-shader_parameter/y_zoom = 1.61051
+shader_parameter/y_zoom = 3.45227
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
