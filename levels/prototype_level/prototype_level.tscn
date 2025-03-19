@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dumgt3u0r5i1i"]
+[gd_scene load_steps=16 format=4 uid="uid://dumgt3u0r5i1i"]
 
 [ext_resource type="TileSet" uid="uid://bbyxnpyuol27n" path="res://levels/prototype_level/tile_set.tres" id="1_8nyvn"]
 [ext_resource type="PackedScene" uid="uid://bd5qcs08srar7" path="res://elements/player/player.tscn" id="2_8nyvn"]
@@ -22,6 +22,16 @@ background_mode = 2
 sky = SubResource("Sky_moabb")
 tonemap_mode = 3
 
+[sub_resource type="GDScript" id="GDScript_4haeq"]
+resource_name = "cloud_movement"
+script/source = "extends ParallaxLayer
+
+@export var CLOUD_SPEED: float = 5
+
+func _process(delta: float) -> void:
+	self.motion_offset.x += CLOUD_SPEED * delta
+"
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3grcs"]
 noise_type = 0
 
@@ -37,7 +47,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 2.0
-shader_parameter/y_zoom = 2.19615
+shader_parameter/y_zoom = 1.12697
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
@@ -95,6 +105,8 @@ zoom = Vector2(2, 2)
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(640, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
 texture = ExtResource("4_4haeq")
@@ -102,6 +114,8 @@ region_enabled = true
 region_rect = Rect2(0, 0, 640, 360)
 
 [node name="moon" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(640, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
 texture = ExtResource("4_4haeq")
@@ -109,6 +123,9 @@ region_enabled = true
 region_rect = Rect2(0, 360, 640, 360)
 
 [node name="clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(640, 0)
+script = SubResource("GDScript_4haeq")
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
 texture = ExtResource("4_4haeq")
