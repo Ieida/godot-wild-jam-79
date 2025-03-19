@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dasyb27pa1c0e"
-path="res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"
+uid="uid://cdfgpnet22a3g"
+path="res://.godot/imported/ui.png-3ff5789afb39a2ce4470654bc9c5b336.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spike bush.png"
-dest_files=["res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"]
+source_file="res://assets/ui.png"
+dest_files=["res://.godot/imported/ui.png-3ff5789afb39a2ce4470654bc9c5b336.ctex"]
 
 [params]
 

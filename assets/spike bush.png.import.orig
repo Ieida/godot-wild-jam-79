@@ -2,7 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
+<<<<<<< HEAD
+uid="uid://b5orhgrm8gq0p"
+=======
 uid="uid://dasyb27pa1c0e"
+>>>>>>> art
 path="res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"
 metadata={
 "vram_texture": false

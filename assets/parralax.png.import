@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dasyb27pa1c0e"
-path="res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"
+uid="uid://bug8t8wgw3efl"
+path="res://.godot/imported/parralax.png-4c97655c33ea118a457cd2eae714c64a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spike bush.png"
-dest_files=["res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"]
+source_file="res://assets/parralax.png"
+dest_files=["res://.godot/imported/parralax.png-4c97655c33ea118a457cd2eae714c64a.ctex"]
 
 [params]
 

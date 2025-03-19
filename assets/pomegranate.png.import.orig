@@ -2,16 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dasyb27pa1c0e"
-path="res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"
+<<<<<<< HEAD
+uid="uid://bhs8nyytn2j5x"
+=======
+uid="uid://dak5g0fhfd3tx"
+>>>>>>> art
+path="res://.godot/imported/pomegranate.png-fae7ececd3155835fd24e7071ef3a895.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spike bush.png"
-dest_files=["res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"]
+source_file="res://assets/pomegranate.png"
+dest_files=["res://.godot/imported/pomegranate.png-fae7ececd3155835fd24e7071ef3a895.ctex"]
 
 [params]
 

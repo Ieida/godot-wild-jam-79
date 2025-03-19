@@ -2,16 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dasyb27pa1c0e"
-path="res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"
+<<<<<<< HEAD
+uid="uid://cdpd0m2hmil6l"
+=======
+uid="uid://3guqaji1aojn"
+>>>>>>> art
+path="res://.godot/imported/explosion_small.png-fe64d2a193643e97a89b9aac201a2434.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spike bush.png"
-dest_files=["res://.godot/imported/spike bush.png-9b34dd9cbb56576b3becc704b20f8366.ctex"]
+source_file="res://assets/explosion_small.png"
+dest_files=["res://.godot/imported/explosion_small.png-fe64d2a193643e97a89b9aac201a2434.ctex"]
 
 [params]
 
