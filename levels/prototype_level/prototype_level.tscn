@@ -24,12 +24,12 @@ tonemap_mode = 3
 
 [sub_resource type="GDScript" id="GDScript_4haeq"]
 resource_name = "cloud_movement"
-script/source = "extends ParallaxLayer
+script/source = "extends Parallax2D
 
 @export var CLOUD_SPEED: float = 5
 
 func _process(delta: float) -> void:
-	self.motion_offset.x += CLOUD_SPEED * delta
+	self.scroll_offset.x += CLOUD_SPEED * delta
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3grcs"]
@@ -42,12 +42,12 @@ noise = SubResource("FastNoiseLite_3grcs")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4haeq"]
 shader = ExtResource("4_jqx64")
 shader_parameter/pixel_size = 128.0
-shader_parameter/color = Color(1, 0.952, 0.92, 1)
+shader_parameter/color = Color(0.7, 0.875, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
-shader_parameter/y_scale = 2.0
-shader_parameter/y_zoom = 1.12697
+shader_parameter/y_scale = 3.0
+shader_parameter/y_zoom = 2.35795
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
@@ -74,68 +74,60 @@ script = SubResource("GDScript_tucxw")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8nyvn")
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -128
+[node name="ParallaxBackground" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.093, 0.1177, 0.15, 1)
+[node name="sky" type="Parallax2D" parent="ParallaxBackground"]
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(640, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
+position = Vector2(320, 180)
+texture = ExtResource("4_4haeq")
+region_enabled = true
+region_rect = Rect2(0, 0, 640, 360)
+
+[node name="moon" type="Parallax2D" parent="ParallaxBackground"]
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
+position = Vector2(320, 180)
+texture = ExtResource("4_4haeq")
+region_enabled = true
+region_rect = Rect2(0, 360, 640, 360)
+
+[node name="clouds" type="Parallax2D" parent="ParallaxBackground"]
+scroll_scale = Vector2(0.3, 0.3)
+repeat_size = Vector2(640, 0)
+script = SubResource("GDScript_4haeq")
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
+position = Vector2(320, 180)
+texture = ExtResource("4_4haeq")
+region_enabled = true
+region_rect = Rect2(0, 720, 640, 360)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
+position = Vector2(320, 180)
 tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAD+/wAAAAABAAEAAAD9/wAAAAAAAAEAAAD8/wAAAAABAAEAAAAAAAAAAAABAAEAAAABAAAAAAAAAAEAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAAAAAEAAAAFAAAAAAABAAAAAAAGAAAAAAAAAAEAAAAHAAAAAAABAAEAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAEAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAAAAAEAAAARAAAAAAABAAAAAAASAAAAAAABAAEAAAATAAAAAAAAAAAAAAD7/wAAAAAAAAEAAAD6/wAAAAABAAAAAAD5/wAAAAABAAEAAAD4/wAAAAABAAEAAAD3/wAAAAABAAAAAAD2/wAAAAABAAAAAAD1/wAAAAABAAEAAAD0/wAAAAABAAEAAADz/wAAAAAAAAEAAADy/wAAAAAAAAAAAADx/wAAAAABAAEAAADw/wAAAAABAAAAAADv/wAAAAABAAAAAADu/wAAAAAAAAAAAADt/wAAAAABAAAAAADs/wAAAAABAAEAAAA=")
 tile_set = ExtResource("1_8nyvn")
 
 [node name="Player" parent="." instance=ExtResource("2_8nyvn")]
 
 [node name="FireEnemy" parent="." instance=ExtResource("3_i8b28")]
-position = Vector2(232, -8)
+position = Vector2(589, 172)
 
 [node name="FireEnemy2" parent="." instance=ExtResource("3_i8b28")]
-position = Vector2(-247, -4)
+position = Vector2(110, 176)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -16)
-zoom = Vector2(2, 2)
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-
-[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(640, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
-texture = ExtResource("4_4haeq")
-region_enabled = true
-region_rect = Rect2(0, 0, 640, 360)
-
-[node name="moon" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0, 0)
-motion_mirroring = Vector2(640, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
-texture = ExtResource("4_4haeq")
-region_enabled = true
-region_rect = Rect2(0, 360, 640, 360)
-
-[node name="clouds" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.3, 0.3)
-motion_mirroring = Vector2(640, 0)
-script = SubResource("GDScript_4haeq")
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
-texture = ExtResource("4_4haeq")
-region_enabled = true
-region_rect = Rect2(0, 720, 640, 360)
+position = Vector2(320, 180)
 
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_4haeq")
-position = Vector2(1, 76)
-scale = Vector2(5, 1)
+position = Vector2(320, 284)
+scale = Vector2(5, 1.4)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
