@@ -7,9 +7,6 @@ Programming
 Assets
 ------
 [ ] Central Tree
-[ ] Player Character
-    [ ] idle Animation
-    [ ] walk Animation
 [ ] Tilemap
 [ ] Plant/Towers
 [ ] Enemies
@@ -29,3 +26,5 @@ Game design
     [ ] growth time
     [ ] combining with other plants/enemy drops
     [ ] plant health/attack by enemies
+[ ] currency to buy towers
+[ ] upgrades to apply to towers (optional, if there is time)
