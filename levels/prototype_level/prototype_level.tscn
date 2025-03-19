@@ -37,7 +37,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 2.0
-shader_parameter/y_zoom = 3.21538
+shader_parameter/y_zoom = 2.19615
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
@@ -94,19 +94,26 @@ zoom = Vector2(2, 2)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
 texture = ExtResource("4_4haeq")
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 180)
+region_rect = Rect2(0, 0, 640, 360)
 
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="moon" type="ParallaxLayer" parent="ParallaxBackground"]
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
 texture = ExtResource("4_4haeq")
 region_enabled = true
-region_rect = Rect2(0, 180, 320, 180)
+region_rect = Rect2(0, 360, 640, 360)
+
+[node name="clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
+texture = ExtResource("4_4haeq")
+region_enabled = true
+region_rect = Rect2(0, 720, 640, 360)
 
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
