@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://dumgt3u0r5i1i"]
+[gd_scene load_steps=14 format=4 uid="uid://dumgt3u0r5i1i"]
 
 [ext_resource type="TileSet" uid="uid://bbyxnpyuol27n" path="res://levels/prototype_level/tile_set.tres" id="1_8nyvn"]
 [ext_resource type="PackedScene" uid="uid://bd5qcs08srar7" path="res://elements/player/player.tscn" id="2_8nyvn"]
 [ext_resource type="PackedScene" uid="uid://771m6rylajx7" path="res://enemies/fire_enemy/fire_enemy.tscn" id="3_i8b28"]
+[ext_resource type="Shader" uid="uid://c4qca7egyntq1" path="res://shaders/water.gdshader" id="4_jqx64"]
+[ext_resource type="Texture2D" uid="uid://87l5rc6m4wxw" path="res://icon.svg" id="5_3grcs"]
 
 [sub_resource type="GDScript" id="GDScript_tucxw"]
 resource_name = "prototype_level"
@@ -18,6 +20,41 @@ sky_material = SubResource("ProceduralSkyMaterial_tucxw")
 background_mode = 2
 sky = SubResource("Sky_moabb")
 tonemap_mode = 3
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3grcs"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4haeq"]
+seamless = true
+noise = SubResource("FastNoiseLite_3grcs")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4haeq"]
+shader = ExtResource("4_jqx64")
+shader_parameter/color = Color(1, 0.952, 0.92, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
+shader_parameter/speed = Vector2(0.03, 0.07)
+shader_parameter/wave_strength = 1.0
+shader_parameter/y_scale = 2.0
+shader_parameter/y_zoom = 1.61051
+
+[sub_resource type="GDScript" id="GDScript_3grcs"]
+resource_name = "water"
+script/source = "@tool
+extends Sprite2D
+
+
+var mat: ShaderMaterial
+
+
+func _process(_delta: float) -> void:
+	var idx = get_index(true)
+	var prnt = get_parent()
+	if idx < prnt.get_child_count() - 1:
+		prnt.move_child(self, prnt.get_child_count() - 1)
+	if not mat: mat = material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter(&\"y_zoom\", get_viewport_transform().get_scale().y)
+"
 
 [node name="PrototypeLevel" type="Node2D"]
 script = SubResource("GDScript_tucxw")
@@ -41,10 +78,6 @@ texture_filter = 1
 tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAD+/wAAAAABAAEAAAD9/wAAAAAAAAEAAAD8/wAAAAABAAEAAAAAAAAAAAABAAEAAAABAAAAAAAAAAEAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAAAAAEAAAAFAAAAAAABAAAAAAAGAAAAAAAAAAEAAAAHAAAAAAABAAEAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAEAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAAAAAEAAAARAAAAAAABAAAAAAASAAAAAAABAAEAAAATAAAAAAAAAAAAAAD7/wAAAAAAAAEAAAD6/wAAAAABAAAAAAD5/wAAAAABAAEAAAD4/wAAAAABAAEAAAD3/wAAAAABAAAAAAD2/wAAAAABAAAAAAD1/wAAAAABAAEAAAD0/wAAAAABAAEAAADz/wAAAAAAAAEAAADy/wAAAAAAAAAAAADx/wAAAAABAAEAAADw/wAAAAABAAAAAADv/wAAAAABAAAAAADu/wAAAAAAAAAAAADt/wAAAAABAAAAAADs/wAAAAABAAEAAAA=")
 tile_set = ExtResource("1_8nyvn")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -16)
-zoom = Vector2(2, 2)
-
 [node name="Player" parent="." instance=ExtResource("2_8nyvn")]
 
 [node name="FireEnemy" parent="." instance=ExtResource("3_i8b28")]
@@ -52,3 +85,15 @@ position = Vector2(232, -8)
 
 [node name="FireEnemy2" parent="." instance=ExtResource("3_i8b28")]
 position = Vector2(-247, -4)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -16)
+zoom = Vector2(2, 2)
+
+[node name="Water" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_4haeq")
+position = Vector2(1, 76)
+scale = Vector2(5, 1)
+texture = ExtResource("5_3grcs")
+script = SubResource("GDScript_3grcs")
