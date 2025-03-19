@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://b24okufrkeh7y"]
+
+[ext_resource type="PackedScene" uid="uid://cfa1hbldoehy" path="res://elements/projectile/projectile.tscn" id="1_12p4g"]
+[ext_resource type="Texture2D" uid="uid://dapm47nutn542" path="res://assets/rose.png" id="2_o4h5o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lsq3o"]
+radius = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gv5uq"]
+atlas = ExtResource("2_o4h5o")
+region = Rect2(144, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3qq0"]
+atlas = ExtResource("2_o4h5o")
+region = Rect2(144, 16, 48, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p63hj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv5uq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3qq0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[node name="RosePrickle" instance=ExtResource("1_12p4g")]
+shape = SubResource("CircleShape2D_lsq3o")
+avoid_plants = true
+speed = 128.0
+
+[node name="Sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_p63hj")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(16, 0)

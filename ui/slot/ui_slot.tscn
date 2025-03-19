@@ -80,6 +80,7 @@ toggle_mode = true
 script = ExtResource("1_w1gk8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

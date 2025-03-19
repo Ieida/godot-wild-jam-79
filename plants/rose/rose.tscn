@@ -1,9 +1,24 @@
-[gd_scene load_steps=22 format=3 uid="uid://dffe4dptqxrkt"]
+[gd_scene load_steps=30 format=3 uid="uid://dffe4dptqxrkt"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_mne6l"]
+[ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_o27jh"]
 [ext_resource type="Texture2D" uid="uid://dapm47nutn542" path="res://assets/rose.png" id="2_slu1u"]
+[ext_resource type="PackedScene" uid="uid://b24okufrkeh7y" path="res://projectiles/rose_prickle.tscn" id="4_o27jh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slu1u"]
+size = Vector2(20, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_joivf"]
+size = Vector2(20, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o27jh"]
+radius = 128.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vwtpn"]
+resource_local_to_scene = true
+shader = ExtResource("2_o27jh")
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o27jh"]
 atlas = ExtResource("2_slu1u")
@@ -65,14 +80,6 @@ region = Rect2(48, 96, 48, 32)
 atlas = ExtResource("2_slu1u")
 region = Rect2(48, 128, 48, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0i3o3"]
-atlas = ExtResource("2_slu1u")
-region = Rect2(144, 0, 48, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s8ilg"]
-atlas = ExtResource("2_slu1u")
-region = Rect2(144, 16, 48, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_fiojl"]
 animations = [{
 "frames": [{
@@ -80,7 +87,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_o27jh")
 }],
 "loop": true,
-"name": &"age 1",
+"name": &"age_1",
 "speed": 5.0
 }, {
 "frames": [{
@@ -88,7 +95,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_vwtpn")
 }],
 "loop": true,
-"name": &"age 2",
+"name": &"age_2",
 "speed": 5.0
 }, {
 "frames": [{
@@ -96,7 +103,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_nfml7")
 }],
 "loop": true,
-"name": &"age 3",
+"name": &"age_3",
 "speed": 5.0
 }, {
 "frames": [{
@@ -104,7 +111,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_x8uun")
 }],
 "loop": true,
-"name": &"age 4",
+"name": &"age_4",
 "speed": 5.0
 }, {
 "frames": [{
@@ -126,7 +133,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_puoku")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -149,27 +156,243 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0i3o3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s8ilg")
-}],
-"loop": true,
-"name": &"projectile",
-"speed": 5.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_slu1u"]
+resource_name = "grow"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _physics_process(_delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+	
+	if active:
+		var age = minf(plant.max_age - 1.0, plant.age)
+		# Play animation based on age
+		var anim_name = &\"age_%s\" % (floori(age) + 1)
+		plant.sprite.play(anim_name)
+		if plant.age >= plant.max_age - 1.0: machine.deactivate_state()
+
+
+func should_enter() -> bool:
+	if machine.active_state != NULL_STATE: return false
+	if plant.age >= plant.max_age: return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_o27jh"]
+resource_name = "idle"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _physics_process(_delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+
+
+func enter():
+	plant.sprite.play(&\"idle\")
+
+
+func should_enter() -> bool:
+	if machine.active_state == NULL_STATE: return true
+	return false
+"
+
+[sub_resource type="GDScript" id="GDScript_x8uun"]
+resource_name = "projectile_attack"
+script/source = "extends State
+
+
+@export var projectile_scene: PackedScene
+@export var time_until_attack: float
+@onready var game: Game = get_node(\"/root/Game\")
+@onready var plant: Plant = $\"../..\"
+@onready var projectile_spawn_point: Node2D = $\"../../ProjectileSpawnPoint\"
+var has_attacked: bool
+var time_elapsed: float
+
+
+func _on_anim_finished():
+	if active and plant.sprite.animation == &\"attack\":
+		machine.deactivate_state()
+
+
+func _physics_process(delta: float) -> void:
+	var t = time_until_attack if active else plant.attack_cooldown
+	time_elapsed = minf(t, time_elapsed + delta)
+	
+	if should_enter(): machine.activate_state(name)
+	
+	if active and not has_attacked and is_equal_approx(time_elapsed, time_until_attack):
+		attack()
+		has_attacked = true
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.sprite.animation_finished.connect(_on_anim_finished)
+
+
+func attack():
+	var enmy := plant.get_closest_enemy()
+	if not enmy: return
+	
+	var dir = plant.global_position.direction_to(enmy.global_position)
+	var dt = Vector2.RIGHT.dot(dir)
+	var f = dt < 0.0
+	plant.sprite.flip_h = f
+	projectile_spawn_point.look_at(enmy.global_position)
+	
+	var proj = projectile_scene.instantiate() as Projectile
+	if proj:
+		proj.add_exception(plant.collider)
+		proj.add_exception(plant.hitbox)
+		proj.damage = plant.damage
+		game.current_level.add_child(proj)
+		proj.global_position = projectile_spawn_point.global_position
+		proj.global_rotation = projectile_spawn_point.global_rotation
+
+
+func enter():
+	time_elapsed = 0
+	has_attacked = false
+	var enmy := plant.get_closest_enemy()
+	if enmy:
+		var dir = plant.global_position.direction_to(enmy.global_position)
+		var dt = Vector2.RIGHT.dot(dir)
+		var f = dt < 0.0
+		plant.sprite.flip_h = f
+		projectile_spawn_point.position.x = -absf(projectile_spawn_point.position.x) if f else absf(projectile_spawn_point.position.x)
+	plant.sprite.play(&\"attack\")
+
+
+func exit():
+	has_attacked = false
+	time_elapsed = 0
+
+
+func should_enter() -> bool:
+	if active: return false
+	if plant.age < plant.max_age: return false
+	if time_elapsed < plant.attack_cooldown: return false
+	if plant.visible_enemies.size() == 0: return false
+	if machine.active_state == &\"withered\": return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_nfml7"]
+resource_name = "hit"
+script/source = "extends State
+
+
+@export var duration: float = 0.1
+@onready var plant: Plant = $\"../..\"
+var material: ShaderMaterial
+var time_elapsed: float
+
+
+func _on_hitbox_hit():
+	machine.activate_state(name)
+
+
+func _physics_process(delta: float) -> void:
+	if active:
+		time_elapsed += delta
+		if time_elapsed >= duration:
+			machine.deactivate_state()
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.hitbox.hit.connect(_on_hitbox_hit)
+	material = plant.sprite.material
+
+
+func enter():
+	time_elapsed = 0
+	plant.sprite.stop()
+	if material:
+		material.set_shader_parameter(&\"flash\", true)
+
+
+func exit():
+	if material:
+		material.set_shader_parameter(&\"flash\", false)
+"
+
+[sub_resource type="GDScript" id="GDScript_vwtpn"]
+resource_name = "withered"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _on_hitbox_depleted():
+	machine.activate_state(name)
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.hitbox.depleted.connect(_on_hitbox_depleted)
+
+
+func enter():
+	plant.collider.process_mode = Node.PROCESS_MODE_DISABLED
+	plant.sprite.stop()
+	var clr = Color.WHITE
+	clr.a = 0.5
+	plant.sprite.modulate = clr
+"
+
 [node name="Rose" instance=ExtResource("1_mne6l")]
+shape = SubResource("RectangleShape2D_slu1u")
 target_position = Vector2(0, 0)
+max_age = 4.0
 
 [node name="CollisionShape2D" parent="Collider" index="0"]
 shape = SubResource("RectangleShape2D_joivf")
 
-[node name="AnimatedSprite2D" parent="." index="1"]
-texture_filter = 1
+[node name="Hitbox" parent="." index="1"]
+max_health = 100.0
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_joivf")
+
+[node name="ProjectileSpawnPoint" type="Node2D" parent="." index="2"]
+position = Vector2(15, -13)
+
+[node name="CollisionShape2D" parent="VisionArea" index="0"]
+shape = SubResource("CircleShape2D_o27jh")
+
+[node name="AnimatedSprite2D" parent="." index="4"]
+material = SubResource("ShaderMaterial_vwtpn")
 sprite_frames = SubResource("SpriteFrames_fiojl")
-animation = &"projectile"
-offset = Vector2(32, -5)
+animation = &"attack"
+frame = 3
+frame_progress = 0.693373
+
+[node name="grow" type="Node" parent="StateMachine" index="0"]
+script = SubResource("GDScript_slu1u")
+
+[node name="idle" type="Node" parent="StateMachine" index="1"]
+script = SubResource("GDScript_o27jh")
+
+[node name="projectile_attack" type="Node" parent="StateMachine" index="2"]
+script = SubResource("GDScript_x8uun")
+projectile_scene = ExtResource("4_o27jh")
+time_until_attack = 0.8
+
+[node name="hit" type="Node" parent="StateMachine" index="3"]
+script = SubResource("GDScript_nfml7")
+
+[node name="withered" type="Node" parent="StateMachine" index="4"]
+script = SubResource("GDScript_vwtpn")
