@@ -10,8 +10,20 @@ class_name Plant extends ShapeCast2D
 @onready var collider: CollisionObject2D = $Collider
 @onready var hitbox: Hitbox = $Hitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var vision_area: Area2D = $VisionArea
 var age: float
 var planted: bool
+var visible_enemies: Array[Enemy]
+
+
+func _on_vision_body_entered(body: Node2D):
+	if body is Enemy:
+		visible_enemies.append(body)
+
+
+func _on_vision_body_exited(body: Node2D):
+	if body is Enemy and visible_enemies.has(body):
+		visible_enemies.erase(body)
 
 
 func _physics_process(delta: float) -> void:
@@ -20,6 +32,8 @@ func _physics_process(delta: float) -> void:
 
 func _ready() -> void:
 	collider.process_mode = Node.PROCESS_MODE_DISABLED
+	vision_area.body_entered.connect(_on_vision_body_entered)
+	vision_area.body_exited.connect(_on_vision_body_exited)
 
 
 func can_be_planted() -> bool:
@@ -34,12 +48,27 @@ func can_be_planted() -> bool:
 	return false
 
 
+func get_closest_enemy() -> Enemy:
+	if visible_enemies.size() == 0: return null
+	
+	var pos: Vector2 = global_position
+	var ce: Enemy = null
+	var cd: float = INF
+	for e in visible_enemies:
+		var d := pos.distance_to(e.global_position)
+		if d < cd:
+			ce = e
+			cd = d
+	return ce
+
+
 func plant():
 	if not is_colliding(): return
 	
 	var pos = get_collision_point(0)
 	pos.x = global_position.x
-	pos.y -= 10.0
+	if shape is RectangleShape2D:
+		pos.y -= shape.size.y / 2.0
 	global_position = pos
 	collider.process_mode = Node.PROCESS_MODE_INHERIT
 	planted = true

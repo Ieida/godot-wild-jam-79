@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfa1hbldoehy"]
+
+[ext_resource type="Script" uid="uid://bm1s33epwi1pf" path="res://elements/projectile/projectile.gd" id="1_0thc4"]
+
+[node name="Projectile" type="ShapeCast2D"]
+enabled = false
+collision_mask = 9
+collide_with_areas = true
+script = ExtResource("1_0thc4")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://c4erfuu3talem"]
 
 [ext_resource type="Script" uid="uid://b68slcab0guie" path="res://elements/enemy/enemy.gd" id="1_ttpur"]
-[ext_resource type="Script" uid="uid://k7nfusjgonw5" path="res://elements/hitbox.gd" id="2_j4vrh"]
+[ext_resource type="Script" path="res://elements/hitbox.gd" id="2_j4vrh"]
 [ext_resource type="Material" uid="uid://cql3f8ciqqh5s" path="res://materials/sprite_material.tres" id="3_1cx0d"]
-[ext_resource type="Script" uid="uid://cuexb3fcahtnx" path="res://elements/state_machine.gd" id="3_ek21h"]
+[ext_resource type="Script" path="res://elements/state_machine.gd" id="3_ek21h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ek21h"]
 radius = 128.0
@@ -19,7 +19,6 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("2_j4vrh")
-metadata/_custom_type_script = "uid://k7nfusjgonw5"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 
@@ -37,4 +36,3 @@ material = ExtResource("3_1cx0d")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_ek21h")
-metadata/_custom_type_script = "uid://cuexb3fcahtnx"

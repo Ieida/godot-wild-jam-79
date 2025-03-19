@@ -6,8 +6,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_joivf"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_joivf"]
-radius = 64.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr1oj"]
+radius = 92.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_130wy"]
 resource_local_to_scene = true
@@ -327,6 +327,7 @@ func _ready() -> void:
 
 func enter():
 	time_elapsed = 0
+	plant.sprite.stop()
 	if material:
 		material.set_shader_parameter(&\"flash\", true)
 
@@ -376,13 +377,8 @@ max_health = 100.0
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_joivf")
 
-[node name="VisionArea" type="Area2D" parent="." index="2"]
-collision_layer = 0
-collision_mask = 4
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea" index="0"]
-shape = SubResource("CircleShape2D_joivf")
+[node name="CollisionShape2D" parent="VisionArea" index="0"]
+shape = SubResource("CircleShape2D_vr1oj")
 
 [node name="AnimatedSprite2D" parent="." index="3"]
 material = SubResource("ShaderMaterial_130wy")
@@ -395,20 +391,15 @@ offset = Vector2(32, -5)
 
 [node name="grow" type="Node" parent="StateMachine" index="0"]
 script = SubResource("GDScript_16su2")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="idle" type="Node" parent="StateMachine" index="1"]
 script = SubResource("GDScript_joivf")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="attack" type="Node" parent="StateMachine" index="2"]
 script = SubResource("GDScript_vr1oj")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_130wy")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="withered" type="Node" parent="StateMachine" index="4"]
 script = SubResource("GDScript_xa7qm")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
