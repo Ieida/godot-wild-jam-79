@@ -401,6 +401,8 @@ script = SubResource("GDScript_vr1oj")
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_130wy")
+duration = 0.2
+reactivate = true
 
 [node name="withered" type="Node" parent="StateMachine" index="4"]
 script = SubResource("GDScript_xa7qm")
