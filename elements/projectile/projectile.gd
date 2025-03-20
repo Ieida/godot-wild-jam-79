@@ -9,19 +9,23 @@ class_name Projectile extends ShapeCast2D
 
 
 func _handle_collision():
-	var hit: bool
+	var ht: bool
 	for ci in get_collision_count():
 		var c = get_collider(ci)
 		if c is Hitbox:
 			var prnt = c.get_parent()
 			if avoid_enemies and prnt is Enemy: continue
 			if avoid_plants and prnt is Plant: continue
-			c.take_hit(damage)
-			hit = true
+			_on_collision(c)
+			ht = true
 	
-	if hit:
-		global_position = target_position * get_closest_collision_unsafe_fraction()
-		queue_free()
+	if ht:
+		global_position = global_position + target_position * get_closest_collision_unsafe_fraction()
+
+
+func _on_collision(hitbox: Hitbox):
+	hitbox.take_hit(damage)
+	if not is_queued_for_deletion(): queue_free()
 
 
 func _physics_process(delta: float) -> void:

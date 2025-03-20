@@ -290,6 +290,7 @@ func get_closest_enemy() -> Enemy:
 
 func should_enter() -> bool:
 	if active: return false
+	if machine.active_state == &\"hit\": return false
 	if time_elapsed < plant.attack_cooldown: return false
 	if plant.age < plant.max_age: return false
 	if enemies.size() == 0: return false
