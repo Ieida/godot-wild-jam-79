@@ -394,6 +394,8 @@ time_until_attack = 0.8
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_nfml7")
+duration = 0.2
+reactivate = true
 
 [node name="withered" type="Node" parent="StateMachine" index="4"]
 script = SubResource("GDScript_vwtpn")

@@ -1,6 +1,8 @@
 class_name Plant extends ShapeCast2D
 
 
+## Should the plant spawn as planted
+@export var planted: bool
 ## How much time for the plant to age 1 year
 @export var age_speed: float = 1
 ## Amount of time between each attack
@@ -12,7 +14,6 @@ class_name Plant extends ShapeCast2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision_area: Area2D = $VisionArea
 var age: float
-var planted: bool
 var visible_enemies: Array[Enemy]
 
 
@@ -34,6 +35,8 @@ func _ready() -> void:
 	collider.process_mode = Node.PROCESS_MODE_DISABLED
 	vision_area.body_entered.connect(_on_vision_body_entered)
 	vision_area.body_exited.connect(_on_vision_body_exited)
+	if planted:
+		collider.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func can_be_planted() -> bool:
