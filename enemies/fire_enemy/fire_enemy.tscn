@@ -275,6 +275,7 @@ func hit():
 
 func should_enter() -> bool:
 	if active: return false
+	if machine.active_state == &\"hit\": return false
 	if enemy.visible_plants.size() == 0: return false
 	if enemy.hitbox.is_depleted: return false
 	var p = enemy.get_closest_plant()
@@ -314,7 +315,7 @@ func _ready() -> void:
 func enter():
 	time_elapsed = 0
 	enemy.velocity = Vector2.ZERO
-	enemy.sprite.play(&\"idle\")
+	enemy.sprite.stop()
 	if material:
 		material.set_shader_parameter(&\"flash\", true)
 
@@ -371,21 +372,17 @@ frame_progress = 1.0
 
 [node name="idle" type="Node" parent="StateMachine" index="0"]
 script = SubResource("GDScript_ndtht")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="chase" type="Node" parent="StateMachine" index="1"]
 script = SubResource("GDScript_eg25p")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="attack" type="Node" parent="StateMachine" index="2"]
 script = SubResource("GDScript_7af5o")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_npsc1")
+duration = 0.2
 reactivate = true
-metadata/_custom_type_script = "uid://byfntbxlic2sm"
 
 [node name="death" type="Node" parent="StateMachine" index="4"]
 script = SubResource("GDScript_2i4xe")
-metadata/_custom_type_script = "uid://byfntbxlic2sm"

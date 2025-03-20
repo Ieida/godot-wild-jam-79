@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bd5qcs08srar7"]
+[gd_scene load_steps=17 format=3 uid="uid://bd5qcs08srar7"]
 
 [ext_resource type="Script" uid="uid://dmjgiq3pyu8oh" path="res://ui/slot_holder.gd" id="1_b51c3"]
 [ext_resource type="PackedScene" uid="uid://hb44if87lvqr" path="res://ui/slot/ui_slot.tscn" id="2_338lt"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cy2ym7ngwwdbv" path="res://assets/mushroom.png" id="5_338lt"]
 [ext_resource type="Texture2D" uid="uid://dapm47nutn542" path="res://assets/rose.png" id="6_h2kxm"]
 [ext_resource type="PackedScene" uid="uid://dffe4dptqxrkt" path="res://plants/rose/rose.tscn" id="6_yd248"]
+[ext_resource type="PackedScene" uid="uid://dpkbypjpjgubl" path="res://plants/pomagranate/pomagranate.tscn" id="8_nd2p5"]
+[ext_resource type="Texture2D" uid="uid://dak5g0fhfd3tx" path="res://assets/pomegranate.png" id="9_onqbq"]
 
 [sub_resource type="GDScript" id="GDScript_b51c3"]
 resource_name = "planter"
@@ -89,6 +91,15 @@ metadata/_custom_type_script = "uid://djkw4r8ipr3n8"
 atlas = ExtResource("6_h2kxm")
 region = Rect2(8, 96, 32, 32)
 
+[sub_resource type="Resource" id="Resource_v2c1w"]
+script = ExtResource("4_yd248")
+plant_scene = ExtResource("8_nd2p5")
+metadata/_custom_type_script = "uid://djkw4r8ipr3n8"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6jt4"]
+atlas = ExtResource("9_onqbq")
+region = Rect2(0, 96, 32, 32)
+
 [node name="Player" type="Node"]
 
 [node name="Planter" type="Node" parent="."]
@@ -132,5 +143,13 @@ item = SubResource("Resource_nd2p5")
 [node name="TextureRect" parent="UI/MarginContainer/PlantSlots/UISlot2" index="0"]
 texture = SubResource("AtlasTexture_yd248")
 
+[node name="UISlot3" parent="UI/MarginContainer/PlantSlots" instance=ExtResource("2_338lt")]
+layout_mode = 2
+item = SubResource("Resource_v2c1w")
+
+[node name="TextureRect" parent="UI/MarginContainer/PlantSlots/UISlot3" index="0"]
+texture = SubResource("AtlasTexture_t6jt4")
+
 [editable path="UI/MarginContainer/PlantSlots/UISlot"]
 [editable path="UI/MarginContainer/PlantSlots/UISlot2"]
+[editable path="UI/MarginContainer/PlantSlots/UISlot3"]

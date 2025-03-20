@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://crfbs4qyqaqhv"]
+
+[ext_resource type="PackedScene" uid="uid://cfa1hbldoehy" path="res://elements/projectile/projectile.tscn" id="1_mcqk6"]
+[ext_resource type="Script" uid="uid://cefel46ohsk4t" path="res://elements/explosive_projectile/explosive_projectile.gd" id="2_n3ki1"]
+[ext_resource type="PackedScene" uid="uid://dnmsrr6qskc46" path="res://elements/explosion/explosion.tscn" id="3_5wtuh"]
+[ext_resource type="Texture2D" uid="uid://dak5g0fhfd3tx" path="res://assets/pomegranate.png" id="4_n2jmc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n2jmc"]
+radius = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ju7kc"]
+atlas = ExtResource("4_n2jmc")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5qd6r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ju7kc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ExplosiveProjectile" instance=ExtResource("1_mcqk6")]
+shape = SubResource("CircleShape2D_n2jmc")
+script = ExtResource("2_n3ki1")
+explosion_scene = ExtResource("3_5wtuh")
+speed = 256.0
+
+[node name="Sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_5qd6r")
+autoplay = "default"
