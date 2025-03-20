@@ -1,9 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://dpkbypjpjgubl"]
+[gd_scene load_steps=31 format=3 uid="uid://dpkbypjpjgubl"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_vmbl0"]
 [ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_eabex"]
 [ext_resource type="Texture2D" uid="uid://dak5g0fhfd3tx" path="res://assets/pomegranate.png" id="3_eabex"]
 [ext_resource type="PackedScene" uid="uid://crfbs4qyqaqhv" path="res://elements/explosive_projectile/explosive_projectile.tscn" id="4_gwlof"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlpcj"]
+size = Vector2(20, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwlof"]
 size = Vector2(20, 30)
@@ -360,6 +363,7 @@ func enter():
 "
 
 [node name="Pomagranate" instance=ExtResource("1_vmbl0")]
+shape = SubResource("RectangleShape2D_tlpcj")
 max_age = 4.0
 
 [node name="CollisionShape2D" parent="Collider" index="0"]
