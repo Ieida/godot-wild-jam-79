@@ -56,6 +56,8 @@ func _try_to_plant():
 	if not plant or not can_be_planted: return
 	
 	plant.plant()
+	var prnt = game.current_level.get_node(^\"Plants\")
+	plant.reparent(prnt)
 	plant = null
 	slot_holder.deselect_all()
 

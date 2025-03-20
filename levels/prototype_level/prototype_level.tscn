@@ -47,8 +47,9 @@ shader_parameter/color = Color(0.7, 0.875, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
-shader_parameter/y_scale = 3.0
-shader_parameter/y_zoom = 1.0
+shader_parameter/y_scale = 7.5
+shader_parameter/y_zoom = 1.61051
+shader_parameter/editor = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
@@ -60,13 +61,10 @@ var mat: ShaderMaterial
 
 
 func _process(_delta: float) -> void:
-	var idx = get_index(true)
-	var prnt = get_parent()
-	if idx < prnt.get_child_count() - 1:
-		prnt.move_child(self, prnt.get_child_count() - 1)
 	if not mat: mat = material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter(&\"y_zoom\", get_viewport_transform().get_scale().y)
+		mat.set_shader_parameter(&\"editor\", Engine.is_editor_hint())
 "
 
 [node name="PrototypeLevel" type="Node2D"]
@@ -108,9 +106,27 @@ texture = ExtResource("4_4haeq")
 region_enabled = true
 region_rect = Rect2(0, 720, 640, 360)
 
-[node name="CentralTree" parent="." instance=ExtResource("2_ep6gc")]
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="FireEnemy" parent="Enemies" instance=ExtResource("3_i8b28")]
+position = Vector2(589, 240)
+
+[node name="FireEnemy2" parent="Enemies" instance=ExtResource("3_i8b28")]
+position = Vector2(110, 240)
+
+[node name="Plants" type="Node2D" parent="."]
+
+[node name="CentralTree" parent="Plants" instance=ExtResource("2_ep6gc")]
 position = Vector2(320, 212)
 planted = true
+
+[node name="Water" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_4haeq")
+position = Vector2(320, 574)
+scale = Vector2(5, 5)
+texture = ExtResource("5_3grcs")
+script = SubResource("GDScript_3grcs")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -120,20 +136,6 @@ tile_set = ExtResource("1_8nyvn")
 
 [node name="Player" parent="." instance=ExtResource("2_8nyvn")]
 
-[node name="FireEnemy" parent="." instance=ExtResource("3_i8b28")]
-position = Vector2(589, 240)
-
-[node name="FireEnemy2" parent="." instance=ExtResource("3_i8b28")]
-position = Vector2(110, 240)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 212)
 zoom = Vector2(1.5, 1.5)
-
-[node name="Water" type="Sprite2D" parent="."]
-texture_filter = 1
-material = SubResource("ShaderMaterial_4haeq")
-position = Vector2(320, 348)
-scale = Vector2(5, 1.4)
-texture = ExtResource("5_3grcs")
-script = SubResource("GDScript_3grcs")
