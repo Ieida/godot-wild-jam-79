@@ -1,0 +1,412 @@
+[gd_scene load_steps=34 format=3 uid="uid://ddyncyqlliqgy"]
+
+[ext_resource type="PackedScene" uid="uid://c4erfuu3talem" path="res://elements/enemy/enemy.tscn" id="1_6havl"]
+[ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_mlkhv"]
+[ext_resource type="Texture2D" uid="uid://bmwliv4p3medu" path="res://assets/enemy2.png" id="3_b1o0a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ndtht"]
+size = Vector2(12, 26)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eg25p"]
+resource_local_to_scene = true
+shader = ExtResource("2_mlkhv")
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksccu"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glpdc"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wt2ap"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtpex"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(96, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1bwl"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lll7"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4h1q"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_maje2"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kx0ug"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xq0o"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eutev"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2xgy"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m42c4"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy04s"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhhd1"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbaye"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_os3it"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h775d"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(0, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boctf"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ftio"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d0tk"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atvs2"]
+atlas = ExtResource("3_b1o0a")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7boo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksccu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glpdc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wt2ap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtpex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1bwl")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lll7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4h1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_maje2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kx0ug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xq0o")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eutev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2xgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m42c4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy04s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhhd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbaye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_os3it")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h775d")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boctf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ftio")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d0tk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atvs2")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_ndtht"]
+resource_name = "idle"
+script/source = "extends State
+
+
+@onready var enemy: Enemy = $\"../..\"
+
+
+func _physics_process(_delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+
+
+func enter():
+	enemy.sprite.play(&\"idle\")
+
+
+func should_enter() -> bool:
+	if machine.active_state == NULL_STATE: return true
+	return false
+"
+
+[sub_resource type="GDScript" id="GDScript_eg25p"]
+resource_name = "chase"
+script/source = "extends State
+
+
+@onready var enemy: Enemy = $\"../..\"
+
+
+func _physics_process(delta: float) -> void:
+	if should_enter(): machine.activate_state(name)
+	
+	if active:
+		var closest_plant = enemy.get_closest_plant()
+		if closest_plant:
+			var dst = enemy.global_position.distance_to(closest_plant.global_position)
+			if dst > 16.0:
+				var dir = enemy.global_position.direction_to(closest_plant.global_position)
+				var dt = Vector2.RIGHT.dot(dir)
+				var f = dt < 0.0
+				enemy.sprite.flip_h = f
+				var d = -1.0 if f else 1.0
+				enemy.velocity.x = d * enemy.speed
+				enemy.velocity.y += enemy.gravity * delta
+				enemy.move_and_slide()
+		else: machine.deactivate_state()
+
+
+func enter():
+	enemy.sprite.play(&\"run\")
+
+
+func should_enter() -> bool:
+	if active: return false
+	if machine.active_state != &\"idle\": return false
+	if enemy.visible_plants.size() == 0: return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_7af5o"]
+resource_name = "attack"
+script/source = "extends State
+
+
+@export var time_until_hit: float = 0.86
+@onready var enemy: Enemy = $\"../..\"
+var has_hit: bool
+var time_elapsed: float
+
+
+func _on_anim_finished():
+	if active and enemy.sprite.animation == &\"attack\":
+		machine.deactivate_state()
+
+
+func _physics_process(delta: float) -> void:
+	if should_enter(): machine.activate_state(name)
+	
+	if active and not has_hit:
+		time_elapsed += delta
+		if time_elapsed >= time_until_hit:
+			hit()
+			has_hit = true
+
+
+func _ready() -> void:
+	await enemy.ready
+	enemy.sprite.animation_finished.connect(_on_anim_finished)
+
+
+func enter():
+	time_elapsed = 0
+	has_hit = false
+	enemy.velocity = Vector2.ZERO
+	enemy.sprite.play(&\"attack\")
+
+
+func hit():
+	var plant = enemy.get_closest_plant()
+	if plant:
+		plant.hitbox.take_hit(enemy.damage)
+
+
+func should_enter() -> bool:
+	if active: return false
+	if machine.active_state == &\"hit\": return false
+	if enemy.visible_plants.size() == 0: return false
+	if enemy.hitbox.is_depleted: return false
+	var p = enemy.get_closest_plant()
+	var plnt_pos = p.global_position
+	plnt_pos.y = enemy.global_position.y
+	var dst = enemy.global_position.distance_to(plnt_pos)
+	if dst > 16.0: return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_npsc1"]
+resource_name = "hit"
+script/source = "extends State
+
+
+@export var duration: float = 0.1
+@onready var enemy: Enemy = $\"../..\"
+var material: ShaderMaterial
+var time_elapsed: float
+
+
+func _on_hitbox_hit():
+	machine.activate_state(name)
+
+
+func _physics_process(delta: float) -> void:
+	if active:
+		time_elapsed += delta
+		if time_elapsed >= duration:
+			machine.deactivate_state()
+
+
+func _ready() -> void:
+	await enemy.ready
+	enemy.hitbox.hit.connect(_on_hitbox_hit)
+	material = enemy.sprite.material
+
+
+func enter():
+	time_elapsed = 0
+	enemy.velocity = Vector2.ZERO
+	enemy.sprite.stop()
+	if material:
+		material.set_shader_parameter(&\"flash\", true)
+
+
+func exit():
+	if material:
+		material.set_shader_parameter(&\"flash\", false)
+"
+
+[sub_resource type="GDScript" id="GDScript_2i4xe"]
+resource_name = "death"
+script/source = "extends State
+
+
+@onready var enemy: Enemy = $\"../..\"
+
+
+func _on_anim_finished():
+	if enemy.sprite.animation == &\"death\":
+		enemy.queue_free()
+
+
+func _on_hitbox_depleted():
+	machine.activate_state(name)
+
+
+func _ready() -> void:
+	await enemy.ready
+	enemy.hitbox.depleted.connect(_on_hitbox_depleted)
+	enemy.sprite.animation_finished.connect(_on_anim_finished)
+
+
+func enter():
+	enemy.sprite.play(&\"death\")
+"
+
+[node name="FlamethrowerEnemy" instance=ExtResource("1_6havl")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_ndtht")
+
+[node name="Hitbox" parent="." index="1"]
+max_health = 100.0
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_ndtht")
+
+[node name="AnimatedSprite2D" parent="." index="3"]
+material = SubResource("ShaderMaterial_eg25p")
+sprite_frames = SubResource("SpriteFrames_j7boo")
+animation = &"idle"
+
+[node name="idle" type="Node" parent="StateMachine" index="0"]
+script = SubResource("GDScript_ndtht")
+
+[node name="chase" type="Node" parent="StateMachine" index="1"]
+script = SubResource("GDScript_eg25p")
+
+[node name="projectile_attack" type="Node" parent="StateMachine" index="2"]
+script = SubResource("GDScript_7af5o")
+
+[node name="hit" type="Node" parent="StateMachine" index="3"]
+script = SubResource("GDScript_npsc1")
+duration = 0.2
+reactivate = true
+
+[node name="death" type="Node" parent="StateMachine" index="4"]
+script = SubResource("GDScript_2i4xe")
+
+[node name="ProjectileSpawnPoint" type="Node2D" parent="." index="5"]
+position = Vector2(6, 7)
