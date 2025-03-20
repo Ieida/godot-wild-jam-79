@@ -128,6 +128,9 @@ age_speed = 100.0
 [node name="CollisionShape2D" parent="Collider" index="0"]
 shape = SubResource("RectangleShape2D_s72tg")
 
+[node name="Hitbox" parent="." index="1"]
+max_health = 100.0
+
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_s72tg")
 
