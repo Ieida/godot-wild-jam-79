@@ -19,6 +19,14 @@ var plant: Plant
 var can_be_planted: bool
 
 
+func _cancel_plant():
+	if not plant: return
+	
+	plant.queue_free()
+	can_be_planted = false
+	slot_holder.deselect_all()
+
+
 func _move_plant_to_mouse():
 	var mouse_position = plant.get_global_mouse_position()
 	plant.global_position = mouse_position
@@ -58,6 +66,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action(&\"plant_confirm\"):
 		if event.is_pressed() and not event.is_echo():
 			_try_to_plant()
+	elif event.is_action(&\"plant_cancel\"):
+		if event.is_pressed() and not event.is_echo():
+			_cancel_plant()
 "
 
 [sub_resource type="Resource" id="Resource_2sqnu"]

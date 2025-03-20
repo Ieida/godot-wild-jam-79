@@ -32,4 +32,5 @@ func _ready() -> void:
 
 func deselect_all():
 	selected_slot.set_pressed_no_signal(false)
+	selected_slot.release_focus()
 	selected_slot = null
