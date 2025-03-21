@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dumgt3u0r5i1i"]
+[gd_scene load_steps=20 format=4 uid="uid://dumgt3u0r5i1i"]
 
 [ext_resource type="TileSet" uid="uid://bbyxnpyuol27n" path="res://levels/prototype_level/tile_set.tres" id="1_8nyvn"]
 [ext_resource type="PackedScene" uid="uid://bd5qcs08srar7" path="res://elements/player/player.tscn" id="2_8nyvn"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bug8t8wgw3efl" path="res://assets/parralax.png" id="4_4haeq"]
 [ext_resource type="Shader" uid="uid://c4qca7egyntq1" path="res://shaders/water.gdshader" id="4_jqx64"]
 [ext_resource type="Texture2D" uid="uid://87l5rc6m4wxw" path="res://icon.svg" id="5_3grcs"]
+[ext_resource type="PackedScene" uid="uid://yw4n0ph3ckrg" path="res://elements/enemy_spawner/enemy_spawner.tscn" id="8_ne7xc"]
 
 [sub_resource type="GDScript" id="GDScript_tucxw"]
 resource_name = "prototype_level"
@@ -67,6 +68,12 @@ func _process(_delta: float) -> void:
 		mat.set_shader_parameter(&\"editor\", Engine.is_editor_hint())
 "
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ne7xc"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_svmq5"]
+size = Vector2(32, 32)
+
 [node name="PrototypeLevel" type="Node2D"]
 script = SubResource("GDScript_tucxw")
 
@@ -108,12 +115,6 @@ region_rect = Rect2(0, 720, 640, 360)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="FireEnemy" parent="Enemies" instance=ExtResource("3_i8b28")]
-position = Vector2(589, 240)
-
-[node name="FireEnemy2" parent="Enemies" instance=ExtResource("3_i8b28")]
-position = Vector2(110, 240)
-
 [node name="Plants" type="Node2D" parent="."]
 
 [node name="CentralTree" parent="Plants" instance=ExtResource("2_ep6gc")]
@@ -139,3 +140,24 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 212)
 zoom = Vector2(1.5, 1.5)
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("8_ne7xc")]
+position = Vector2(589, 237)
+active = true
+spawnee_scene = ExtResource("3_i8b28")
+interval = 5.0
+
+[node name="CollisionShape2D" parent="EnemySpawner2" index="0"]
+shape = SubResource("RectangleShape2D_ne7xc")
+
+[node name="EnemySpawner" parent="." instance=ExtResource("8_ne7xc")]
+position = Vector2(59, 237)
+active = true
+spawnee_scene = ExtResource("3_i8b28")
+interval = 5.0
+
+[node name="CollisionShape2D" parent="EnemySpawner" index="0"]
+shape = SubResource("RectangleShape2D_svmq5")
+
+[editable path="EnemySpawner2"]
+[editable path="EnemySpawner"]

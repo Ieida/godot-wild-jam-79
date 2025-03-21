@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjyawh27nc8f0"]
+
+[ext_resource type="Script" uid="uid://dqkg8kwg07rcv" path="res://elements/spawner/spawner.gd" id="1_o5c8d"]
+
+[node name="Spawner" type="Area2D"]
+collision_layer = 0
+collision_mask = 7
+monitorable = false
+script = ExtResource("1_o5c8d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
