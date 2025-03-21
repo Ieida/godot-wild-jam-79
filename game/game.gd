@@ -29,6 +29,7 @@ func _ready() -> void:
 func change_level_to_node(node: Level):
 	if current_level: unload_current_level()
 	levels.add_child(node)
+	current_level = node
 	level_changed.emit()
 
 
@@ -50,6 +51,6 @@ func restart_level():
 
 
 func unload_current_level():
-	current_level.reparent(null)
+	levels.remove_child(current_level)
 	current_level.queue_free()
 	current_level = null

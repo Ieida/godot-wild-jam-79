@@ -1,14 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://cv4mrkfkhnr4y"]
+[gd_scene load_steps=12 format=3 uid="uid://cv4mrkfkhnr4y"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_m1buv"]
 [ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_h2cqt"]
 [ext_resource type="Texture2D" uid="uid://c7vcagmhgxjh8" path="res://assets/central tree.png" id="3_h2cqt"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2cqt"]
-size = Vector2(64, 82)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s72tg"]
-size = Vector2(64, 82)
+size = Vector2(32, 82)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1f0ef"]
 radius = 128.0
@@ -101,6 +98,7 @@ resource_name = "withered"
 script/source = "extends State
 
 
+@onready var game: Game = get_node(^\"/root/Game\")
 @onready var plant: Plant = $\"../..\"
 
 
@@ -119,10 +117,11 @@ func enter():
 	var clr = Color.WHITE
 	clr.a = 0.5
 	plant.sprite.modulate = clr
+	game.menus[&\"game_over\"].open()
 "
 
 [node name="CentralTree" instance=ExtResource("1_m1buv")]
-shape = SubResource("RectangleShape2D_h2cqt")
+shape = SubResource("RectangleShape2D_s72tg")
 age_speed = 100.0
 
 [node name="CollisionShape2D" parent="Collider" index="0"]
