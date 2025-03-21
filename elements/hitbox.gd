@@ -10,6 +10,10 @@ signal hit
 var is_depleted: bool
 
 
+func get_health_normalized() -> float:
+	return health / max_health
+
+
 func take_hit(damage: float):
 	if is_depleted: return
 	

@@ -84,6 +84,8 @@ func _ready() -> void:
 func enter():
 	time_elapsed = 0
 	plant.sprite.stop()
+	var hn = plant.hitbox.get_health_normalized()
+	plant.sprite.modulate = Color.BLACK.lerp(Color.WHITE, hn)
 	if material:
 		material.set_shader_parameter(&\"flash\", true)
 
@@ -114,9 +116,7 @@ func _ready() -> void:
 func enter():
 	plant.collider.process_mode = Node.PROCESS_MODE_DISABLED
 	plant.sprite.stop()
-	var clr = Color.WHITE
-	clr.a = 0.5
-	plant.sprite.modulate = clr
+	plant.sprite.modulate = Color.BLACK
 	game.menus[&\"game_over\"].open()
 "
 
