@@ -48,7 +48,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 1.61051
+shader_parameter/y_zoom = 0.909091
 shader_parameter/editor = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
