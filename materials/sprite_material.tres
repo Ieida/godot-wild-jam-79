@@ -7,3 +7,4 @@ resource_local_to_scene = true
 shader = ExtResource("1_hmyub")
 shader_parameter/flash = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0

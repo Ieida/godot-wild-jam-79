@@ -14,6 +14,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_16su2")
 shader_parameter/flash = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_16su2"]
 atlas = ExtResource("2_vr1oj")
@@ -330,7 +331,7 @@ func enter():
 	time_elapsed = 0
 	plant.sprite.stop()
 	var hn = plant.hitbox.get_health_normalized()
-	plant.sprite.modulate = Color.BLACK.lerp(Color.WHITE, hn)
+	plant.sprite_material.set_shader_parameter(&\"saturation\", hn)
 	if material:
 		material.set_shader_parameter(&\"flash\", true)
 
@@ -358,22 +359,20 @@ func _ready() -> void:
 
 
 func enter():
-	plant.collider.process_mode = Node.PROCESS_MODE_DISABLED
-	plant.sprite.stop()
-	plant.sprite.modulate = Color.BLACK
+	var hn = plant.hitbox.get_health_normalized()
+	plant.sprite_material.set_shader_parameter(&\"saturation\", hn)
 "
 
 [node name="Mushroom" instance=ExtResource("1_joivf")]
-target_position = Vector2(0, 0)
 age_speed = 2.0
 attack_cooldown = 3.0
 max_age = 4.0
 
-[node name="CollisionShape2D" parent="Collider" index="0"]
+[node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_joivf")
 
-[node name="Hitbox" parent="." index="1"]
-max_health = 100.0
+[node name="ShapeCast" parent="." index="1"]
+shape = SubResource("RectangleShape2D_joivf")
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_joivf")
@@ -381,7 +380,7 @@ shape = SubResource("RectangleShape2D_joivf")
 [node name="CollisionShape2D" parent="VisionArea" index="0"]
 shape = SubResource("CircleShape2D_vr1oj")
 
-[node name="AnimatedSprite2D" parent="." index="3"]
+[node name="AnimatedSprite2D" parent="." index="5"]
 material = SubResource("ShaderMaterial_130wy")
 sprite_frames = SubResource("SpriteFrames_130wy")
 animation = &"attack"

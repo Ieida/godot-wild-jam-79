@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bd5qcs08srar7"]
+[gd_scene load_steps=18 format=3 uid="uid://bd5qcs08srar7"]
 
 [ext_resource type="Script" uid="uid://dmjgiq3pyu8oh" path="res://ui/slot_holder.gd" id="1_b51c3"]
 [ext_resource type="PackedScene" uid="uid://hb44if87lvqr" path="res://ui/slot/ui_slot.tscn" id="2_338lt"]
@@ -75,6 +75,52 @@ func _unhandled_input(event: InputEvent) -> void:
 			_cancel_plant()
 "
 
+[sub_resource type="GDScript" id="GDScript_nd2p5"]
+resource_name = "picker"
+script/source = "extends Node2D
+
+
+var hovered_item: Item
+var phy_query_params: PhysicsPointQueryParameters2D
+var picked_item: Item
+
+
+func _physics_process(_delta: float) -> void:
+	if not picked_item:
+		var ss = get_viewport().world_2d.direct_space_state
+		phy_query_params.position = get_global_mouse_position()
+		var ins = ss.intersect_point(phy_query_params)
+		hovered_item = null
+		if ins.size() > 0:
+			for ii in ins:
+				var i = ii[\"collider\"] as Item
+				if i and i.can_be_picked_up:
+					hovered_item = i
+					break
+	elif not Input.is_action_pressed(&\"pick_up\"):
+		picked_item.drop()
+		picked_item = null
+	else:
+		picked_item.global_position = get_global_mouse_position()
+
+
+func _ready() -> void:
+	phy_query_params = PhysicsPointQueryParameters2D.new()
+	phy_query_params.collision_mask = 0b10000
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action(&\"pick_up\"):
+		if event.is_pressed() and not event.is_echo():
+			if hovered_item:
+				picked_item = hovered_item
+				hovered_item.pick_up()
+		elif event.is_released() and not event.is_echo():
+			if picked_item:
+				picked_item.drop()
+				picked_item = null
+"
+
 [sub_resource type="Resource" id="Resource_2sqnu"]
 script = ExtResource("4_yd248")
 plant_scene = ExtResource("3_338lt")
@@ -106,6 +152,9 @@ region = Rect2(0, 96, 32, 32)
 
 [node name="Planter" type="Node" parent="."]
 script = SubResource("GDScript_b51c3")
+
+[node name="Picker" type="Node2D" parent="."]
+script = SubResource("GDScript_nd2p5")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
