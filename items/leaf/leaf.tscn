@@ -33,11 +33,10 @@ script/source = "extends Area2D
 
 func _on_leaf_dropped():
 	for b in get_overlapping_bodies():
-		if b.is_in_group(&\"plant_colliders\"):
-			var p = b.get_parent() as Plant
-			if p and not p.hitbox.full:
-				p.hitbox.heal(leaf.heal_amount)
-				print(\"healed %s\" % p.name)
+		if b is Plant:
+			if not b.hitbox.full:
+				b.hitbox.heal(leaf.heal_amount)
+				print(\"healed %s\" % b.name)
 				leaf.queue_free()
 				break
 

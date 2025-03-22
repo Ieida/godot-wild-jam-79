@@ -14,6 +14,11 @@ var full: bool
 var is_depleted: bool
 
 
+func _ready() -> void:
+	full = is_equal_approx(health, max_health)
+	is_depleted = is_zero_approx(health)
+
+
 func get_health_normalized() -> float:
 	return health / max_health
 
@@ -22,6 +27,8 @@ func heal(amount: float):
 	if is_equal_approx(health, max_health): return
 	
 	health = minf(max_health, health + amount)
+	
+	if is_depleted and not is_zero_approx(health): is_depleted = false
 	
 	if is_equal_approx(health, max_health):
 		full = true

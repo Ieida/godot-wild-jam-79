@@ -12,6 +12,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_npsc1")
 shader_parameter/flash = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kyx3q"]
 atlas = ExtResource("2_ndtht")
@@ -279,6 +280,7 @@ func should_enter() -> bool:
 	if enemy.visible_plants.size() == 0: return false
 	if enemy.hitbox.is_depleted: return false
 	var p = enemy.get_closest_plant()
+	if not p: return false
 	var plnt_pos = p.global_position
 	plnt_pos.y = enemy.global_position.y
 	var dst = enemy.global_position.distance_to(plnt_pos)
@@ -358,9 +360,6 @@ func enter():
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_ndtht")
-
-[node name="Hitbox" parent="." index="1"]
-max_health = 100.0
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_ndtht")

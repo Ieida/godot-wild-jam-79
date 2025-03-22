@@ -1,31 +1,48 @@
-[gd_scene load_steps=6 format=3 uid="uid://dr3av80rwwqwb"]
+[gd_scene load_steps=8 format=3 uid="uid://dr3av80rwwqwb"]
 
 [ext_resource type="Script" uid="uid://du1oddbbp34tp" path="res://elements/plant/plant.gd" id="1_3x88q"]
 [ext_resource type="Material" uid="uid://cql3f8ciqqh5s" path="res://materials/sprite_material.tres" id="2_7e5m0"]
 [ext_resource type="Script" uid="uid://cuexb3fcahtnx" path="res://elements/state_machine.gd" id="2_abyum"]
 [ext_resource type="Script" uid="uid://k7nfusjgonw5" path="res://elements/hitbox.gd" id="2_y05d3"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_abyum"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y05d3"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
 
-[node name="Plant" type="ShapeCast2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_y05d3"]
+resource_local_to_scene = true
+radius = 128.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kkrnm"]
+resource_local_to_scene = true
+
+[node name="Plant" type="CharacterBody2D"]
 z_index = -1
-enabled = false
-shape = SubResource("RectangleShape2D_abyum")
-collision_mask = 3
+collision_layer = 2
 script = ExtResource("1_3x88q")
 
-[node name="Collider" type="CharacterBody2D" parent="." groups=["plant_colliders"]]
-collision_layer = 2
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y05d3")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+[node name="ShapeCast" type="ShapeCast2D" parent="."]
+z_index = -1
+enabled = false
+shape = SubResource("RectangleShape2D_y05d3")
+collision_mask = 3
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = false
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("2_y05d3")
+initial_health = 100.0
+max_health = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_y05d3")
 
 [node name="VisionArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -33,10 +50,12 @@ collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_y05d3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 material = ExtResource("2_7e5m0")
+sprite_frames = SubResource("SpriteFrames_kkrnm")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_abyum")

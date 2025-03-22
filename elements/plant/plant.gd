@@ -1,4 +1,4 @@
-class_name Plant extends ShapeCast2D
+class_name Plant extends CharacterBody2D
 
 
 ## Should the plant spawn as planted
@@ -9,13 +9,23 @@ class_name Plant extends ShapeCast2D
 @export var attack_cooldown: float = 1
 @export var damage: float = 20
 @export var max_age: float
-@onready var collider: CollisionObject2D = $Collider
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var hitbox: Hitbox = $Hitbox
 @onready var initial_z_index: int = z_index
+@onready var ray_cast: RayCast2D = $RayCast2D
+@onready var shape_cast: ShapeCast2D = $ShapeCast
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite_material: ShaderMaterial = sprite.material
+@onready var state_machine: StateMachine = $StateMachine
 @onready var vision_area: Area2D = $VisionArea
 var age: float
 var visible_enemies: Array[Enemy]
+
+
+func _on_hitbox_healed(_amount: float):
+	if sprite_material:
+		sprite_material.set_shader_parameter(&"saturation", hitbox.get_health_normalized())
+		state_machine.activate_state(&"idle")
 
 
 func _on_vision_body_entered(body: Node2D):
@@ -33,22 +43,27 @@ func _physics_process(delta: float) -> void:
 
 
 func _ready() -> void:
-	collider.process_mode = Node.PROCESS_MODE_DISABLED
+	collision_shape.disabled = true
+	hitbox.healed.connect(_on_hitbox_healed)
 	vision_area.body_entered.connect(_on_vision_body_entered)
 	vision_area.body_exited.connect(_on_vision_body_exited)
 	if planted:
-		collider.process_mode = Node.PROCESS_MODE_INHERIT
+		collision_shape.disabled = false
 	else:
 		z_index = 1
 
 
 func can_be_planted() -> bool:
-	target_position = Vector2(0, 1000.0)
-	force_shapecast_update()
-	if is_colliding():
-		for coll_index in get_collision_count():
-			var coll = get_collider(coll_index) as CollisionObject2D
-			if coll and coll.is_in_group(&"plant_colliders"):
+	ray_cast.target_position = Vector2(0, 128.)
+	ray_cast.force_raycast_update()
+	if not ray_cast.is_colliding(): return false
+	
+	shape_cast.target_position = Vector2(0, 128.0)
+	shape_cast.force_shapecast_update()
+	if shape_cast.is_colliding():
+		for coll_index in shape_cast.get_collision_count():
+			var coll = shape_cast.get_collider(coll_index)
+			if coll and coll is Plant:
 				return false
 		return true
 	return false
@@ -69,13 +84,16 @@ func get_closest_enemy() -> Enemy:
 
 
 func plant():
-	if not is_colliding(): return
+	ray_cast.target_position = Vector2(0, 128.)
+	ray_cast.force_raycast_update()
 	
-	var pos = get_collision_point(0)
-	pos.x = global_position.x
-	if shape is RectangleShape2D:
-		pos.y -= shape.size.y / 2.0
+	var pos = global_position
+	if ray_cast.is_colliding():
+		pos.y = ray_cast.get_collision_point().y
+		var shp = collision_shape.shape
+		if shp and shp is RectangleShape2D:
+			pos.y -= shp.size.y / 2.0
 	global_position = pos
-	collider.process_mode = Node.PROCESS_MODE_INHERIT
+	collision_shape.disabled = false
 	z_index = initial_z_index
 	planted = true

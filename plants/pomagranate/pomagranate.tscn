@@ -1,12 +1,9 @@
-[gd_scene load_steps=31 format=3 uid="uid://dpkbypjpjgubl"]
+[gd_scene load_steps=30 format=3 uid="uid://dpkbypjpjgubl"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_vmbl0"]
 [ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_eabex"]
 [ext_resource type="Texture2D" uid="uid://dak5g0fhfd3tx" path="res://assets/pomegranate.png" id="3_eabex"]
 [ext_resource type="PackedScene" uid="uid://crfbs4qyqaqhv" path="res://elements/explosive_projectile/explosive_projectile.tscn" id="4_gwlof"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlpcj"]
-size = Vector2(20, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwlof"]
 size = Vector2(20, 30)
@@ -19,6 +16,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_eabex")
 shader_parameter/flash = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gwlof"]
 atlas = ExtResource("3_eabex")
@@ -261,7 +259,7 @@ func attack():
 	var proj = projectile_scene.instantiate() as Projectile
 	if proj:
 		proj.avoid_plants = true
-		proj.add_exception(plant.collider)
+		proj.add_exception(plant)
 		proj.add_exception(plant.hitbox)
 		proj.damage = plant.damage
 		game.current_level.add_child(proj)
@@ -329,7 +327,7 @@ func enter():
 	time_elapsed = 0
 	plant.sprite.stop()
 	var hn = plant.hitbox.get_health_normalized()
-	plant.sprite.modulate = Color.BLACK.lerp(Color.WHITE, hn)
+	plant.sprite_material.set_shader_parameter(&\"saturation\", hn)
 	if material:
 		material.set_shader_parameter(&\"flash\", true)
 
@@ -357,20 +355,21 @@ func _ready() -> void:
 
 
 func enter():
-	plant.collider.process_mode = Node.PROCESS_MODE_DISABLED
-	plant.sprite.stop()
-	plant.sprite.modulate = Color.BLACK
+	var hn = plant.hitbox.get_health_normalized()
+	plant.sprite_material.set_shader_parameter(&\"saturation\", hn)
 "
 
 [node name="Pomagranate" instance=ExtResource("1_vmbl0")]
-shape = SubResource("RectangleShape2D_tlpcj")
 max_age = 4.0
 
-[node name="CollisionShape2D" parent="Collider" index="0"]
+[node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_gwlof")
 
-[node name="Hitbox" parent="." index="1"]
-max_health = 100.0
+[node name="ShapeCast" parent="." index="1"]
+shape = SubResource("RectangleShape2D_gwlof")
+
+[node name="ProjectileSpawnPoint" type="Node2D" parent="." index="3"]
+position = Vector2(-1, -12)
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_gwlof")
@@ -378,10 +377,7 @@ shape = SubResource("RectangleShape2D_gwlof")
 [node name="CollisionShape2D" parent="VisionArea" index="0"]
 shape = SubResource("CircleShape2D_tlpcj")
 
-[node name="ProjectileSpawnPoint" type="Node2D" parent="." index="3"]
-position = Vector2(-1, -12)
-
-[node name="AnimatedSprite2D" parent="." index="4"]
+[node name="AnimatedSprite2D" parent="." index="6"]
 material = SubResource("ShaderMaterial_gwlof")
 sprite_frames = SubResource("SpriteFrames_v1bu5")
 animation = &"attack"

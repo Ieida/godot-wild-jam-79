@@ -12,15 +12,13 @@ var visible_plants: Array[Plant]
 
 
 func _on_vision_body_entered(body: Node2D):
-	if body.is_in_group(&"plant_colliders"):
-		var plant = body.get_parent() as Plant
-		if plant: visible_plants.append(plant)
+	if body is Plant:
+		visible_plants.append(body)
 
 
 func _on_vision_body_exited(body: Node2D):
-	if body.is_in_group(&"plant_colliders"):
-		var plant = body.get_parent() as Plant
-		if plant: visible_plants.erase(plant)
+	if body is Plant:
+		visible_plants.erase(body)
 
 
 func _ready() -> void:
@@ -35,6 +33,8 @@ func get_closest_plant() -> Plant:
 	var cp: Plant = null
 	var cd: float = INF
 	for plant in visible_plants:
+		if plant.hitbox.is_depleted: continue
+		
 		var d := pos.distance_to(plant.global_position)
 		if d < cd:
 			cp = plant
