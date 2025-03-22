@@ -36,7 +36,6 @@ func _on_leaf_dropped():
 		if b is Plant:
 			if not b.hitbox.full:
 				b.hitbox.heal(leaf.heal_amount)
-				print(\"healed %s\" % b.name)
 				leaf.queue_free()
 				break
 

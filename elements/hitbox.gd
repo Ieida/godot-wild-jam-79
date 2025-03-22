@@ -24,7 +24,7 @@ func get_health_normalized() -> float:
 
 
 func heal(amount: float):
-	if is_equal_approx(health, max_health): return
+	if full: return
 	
 	health = minf(max_health, health + amount)
 	
@@ -40,6 +40,8 @@ func take_hit(damage: float):
 	if is_depleted: return
 	
 	health = maxf(0, health - damage)
+	
+	if full and not is_equal_approx(health, max_health): full = false
 	
 	if is_zero_approx(health):
 		is_depleted = true
