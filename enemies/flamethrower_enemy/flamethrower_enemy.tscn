@@ -176,7 +176,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wq7wv")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -196,7 +196,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7xq0o")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 5.0
 }, {
@@ -433,6 +433,7 @@ func enter():
 "
 
 [node name="FlamethrowerEnemy" instance=ExtResource("1_6havl")]
+damage = 50.0
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_ndtht")
@@ -456,6 +457,7 @@ script = SubResource("GDScript_eg25p")
 
 [node name="attack" type="Node" parent="StateMachine" index="2"]
 script = SubResource("GDScript_7af5o")
+time_until_hit = 1.0
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_npsc1")
