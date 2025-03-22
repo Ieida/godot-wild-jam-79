@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cv4mrkfkhnr4y"]
+[gd_scene load_steps=15 format=3 uid="uid://cv4mrkfkhnr4y"]
 
 [ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_m1buv"]
+[ext_resource type="PackedScene" uid="uid://bjyawh27nc8f0" path="res://elements/spawner/spawner.tscn" id="2_1f0ef"]
 [ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_h2cqt"]
+[ext_resource type="PackedScene" uid="uid://bn5ornumitp58" path="res://items/leaf/leaf.tscn" id="3_f7jjs"]
 [ext_resource type="Texture2D" uid="uid://c7vcagmhgxjh8" path="res://assets/central tree.png" id="3_h2cqt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s72tg"]
@@ -134,13 +136,20 @@ shape = SubResource("RectangleShape2D_s72tg")
 [node name="ShapeCast" parent="." index="1"]
 shape = SubResource("RectangleShape2D_h2cqt")
 
+[node name="LeafSpawner" parent="." index="3" instance=ExtResource("2_1f0ef")]
+position = Vector2(-8, -16)
+active = true
+spawn_points = Array[Vector2]([Vector2(0, 0), Vector2(32, -16), Vector2(16, -16), Vector2(16, 16)])
+spawnee_scene = ExtResource("3_f7jjs")
+interval = 5.0
+
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_s72tg")
 
 [node name="CollisionShape2D" parent="VisionArea" index="0"]
 shape = SubResource("CircleShape2D_1f0ef")
 
-[node name="AnimatedSprite2D" parent="." index="5"]
+[node name="AnimatedSprite2D" parent="." index="6"]
 material = SubResource("ShaderMaterial_s72tg")
 sprite_frames = SubResource("SpriteFrames_38265")
 animation = &"idle"

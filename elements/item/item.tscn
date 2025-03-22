@@ -10,7 +10,7 @@ radius = 16.0
 resource_local_to_scene = true
 
 [node name="Item" type="CharacterBody2D"]
-z_index = 1
+z_as_relative = false
 collision_layer = 16
 input_pickable = true
 script = ExtResource("1_kv538")
@@ -23,6 +23,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kv538")
 
 [node name="PickUp" type="Label" parent="."]
+z_index = 128
 offset_left = -29.0
 offset_top = -35.0
 offset_right = 29.0

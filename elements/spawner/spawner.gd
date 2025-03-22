@@ -2,6 +2,7 @@ class_name Spawner extends Area2D
 
 
 @export var active: bool
+@export var spawn_points: Array[Vector2]
 @export var spawnee_scene: PackedScene
 @export var interval: float
 @onready var game: Game = get_node("/root/Game")
@@ -18,6 +19,9 @@ func _physics_process(delta: float) -> void:
 
 func _spawned(node: Node):
 	add_child(node)
+	if node is Node2D and spawn_points.size() > 0:
+		var p = spawn_points.pick_random()
+		node.global_position = to_global(p)
 
 
 func spawn_scene(scn: PackedScene):
