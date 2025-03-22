@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cyltl1w8trot"]
+
+[ext_resource type="Shader" uid="uid://c4qca7egyntq1" path="res://shaders/water.gdshader" id="1_6gfwt"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3grcs"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4haeq"]
+seamless = true
+noise = SubResource("FastNoiseLite_3grcs")
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_6gfwt")
+shader_parameter/pixel_size = 128.0
+shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
+shader_parameter/speed = Vector2(0.03, 0.07)
+shader_parameter/wave_strength = 1.0
+shader_parameter/y_scale = 7.5
+shader_parameter/y_zoom = 1.4641
+shader_parameter/editor = true

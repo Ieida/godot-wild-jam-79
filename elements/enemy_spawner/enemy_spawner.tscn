@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://yw4n0ph3ckrg"]
+
+[ext_resource type="PackedScene" uid="uid://bjyawh27nc8f0" path="res://elements/spawner/spawner.tscn" id="1_fu0pl"]
+[ext_resource type="Script" uid="uid://db5eslj5fufmc" path="res://elements/enemy_spawner/enemy_spawner.gd" id="2_0wksv"]
+
+[node name="EnemySpawner" instance=ExtResource("1_fu0pl")]
+collision_mask = 5
+script = ExtResource("2_0wksv")

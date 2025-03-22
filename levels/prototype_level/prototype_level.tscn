@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dumgt3u0r5i1i"]
+[gd_scene load_steps=20 format=4 uid="uid://dumgt3u0r5i1i"]
 
 [ext_resource type="TileSet" uid="uid://bbyxnpyuol27n" path="res://levels/prototype_level/tile_set.tres" id="1_8nyvn"]
 [ext_resource type="PackedScene" uid="uid://bd5qcs08srar7" path="res://elements/player/player.tscn" id="2_8nyvn"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bug8t8wgw3efl" path="res://assets/parralax.png" id="4_4haeq"]
 [ext_resource type="Shader" uid="uid://c4qca7egyntq1" path="res://shaders/water.gdshader" id="4_jqx64"]
 [ext_resource type="Texture2D" uid="uid://87l5rc6m4wxw" path="res://icon.svg" id="5_3grcs"]
+[ext_resource type="PackedScene" uid="uid://yw4n0ph3ckrg" path="res://elements/enemy_spawner/enemy_spawner.tscn" id="8_ne7xc"]
 
 [sub_resource type="GDScript" id="GDScript_tucxw"]
 resource_name = "prototype_level"
@@ -40,15 +41,16 @@ noise_type = 0
 seamless = true
 noise = SubResource("FastNoiseLite_3grcs")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4haeq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ne7xc"]
+resource_local_to_scene = true
 shader = ExtResource("4_jqx64")
 shader_parameter/pixel_size = 128.0
-shader_parameter/color = Color(0.7, 0.875, 1, 1)
+shader_parameter/color = Color(0.36, 0.9, 0.711, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 0.909091
+shader_parameter/y_zoom = 1.4641
 shader_parameter/editor = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
@@ -57,6 +59,7 @@ script/source = "@tool
 extends Sprite2D
 
 
+@export var color: Color
 var mat: ShaderMaterial
 
 
@@ -65,7 +68,14 @@ func _process(_delta: float) -> void:
 	if mat:
 		mat.set_shader_parameter(&\"y_zoom\", get_viewport_transform().get_scale().y)
 		mat.set_shader_parameter(&\"editor\", Engine.is_editor_hint())
+		mat.set_shader_parameter(&\"color\", color)
 "
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ne7xc"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_svmq5"]
+size = Vector2(32, 32)
 
 [node name="PrototypeLevel" type="Node2D"]
 script = SubResource("GDScript_tucxw")
@@ -80,6 +90,7 @@ scroll_scale = Vector2(0.1, 0.1)
 repeat_size = Vector2(640, 360)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
@@ -90,6 +101,7 @@ scroll_scale = Vector2(0, 0)
 repeat_size = Vector2(640, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
@@ -101,18 +113,13 @@ repeat_size = Vector2(640, 0)
 script = SubResource("GDScript_4haeq")
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
 region_rect = Rect2(0, 720, 640, 360)
 
 [node name="Enemies" type="Node2D" parent="."]
-
-[node name="FireEnemy" parent="Enemies" instance=ExtResource("3_i8b28")]
-position = Vector2(589, 240)
-
-[node name="FireEnemy2" parent="Enemies" instance=ExtResource("3_i8b28")]
-position = Vector2(110, 240)
 
 [node name="Plants" type="Node2D" parent="."]
 
@@ -122,11 +129,12 @@ planted = true
 
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_4haeq")
+material = SubResource("ShaderMaterial_ne7xc")
 position = Vector2(320, 574)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
+color = Color(0.36, 0.9, 0.711, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -139,3 +147,24 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 212)
 zoom = Vector2(1.5, 1.5)
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("8_ne7xc")]
+position = Vector2(589, 237)
+active = true
+spawnee_scene = ExtResource("3_i8b28")
+interval = 5.0
+
+[node name="CollisionShape2D" parent="EnemySpawner2" index="0"]
+shape = SubResource("RectangleShape2D_ne7xc")
+
+[node name="EnemySpawner" parent="." instance=ExtResource("8_ne7xc")]
+position = Vector2(59, 237)
+active = true
+spawnee_scene = ExtResource("3_i8b28")
+interval = 5.0
+
+[node name="CollisionShape2D" parent="EnemySpawner" index="0"]
+shape = SubResource("RectangleShape2D_svmq5")
+
+[editable path="EnemySpawner2"]
+[editable path="EnemySpawner"]
