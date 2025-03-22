@@ -41,15 +41,16 @@ noise_type = 0
 seamless = true
 noise = SubResource("FastNoiseLite_3grcs")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4haeq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ne7xc"]
+resource_local_to_scene = true
 shader = ExtResource("4_jqx64")
 shader_parameter/pixel_size = 128.0
-shader_parameter/color = Color(0.7, 0.875, 1, 1)
+shader_parameter/color = Color(0.36, 0.9, 0.711, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 1.0
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 0.909091
+shader_parameter/y_zoom = 1.4641
 shader_parameter/editor = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
@@ -58,6 +59,7 @@ script/source = "@tool
 extends Sprite2D
 
 
+@export var color: Color
 var mat: ShaderMaterial
 
 
@@ -66,6 +68,7 @@ func _process(_delta: float) -> void:
 	if mat:
 		mat.set_shader_parameter(&\"y_zoom\", get_viewport_transform().get_scale().y)
 		mat.set_shader_parameter(&\"editor\", Engine.is_editor_hint())
+		mat.set_shader_parameter(&\"color\", color)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ne7xc"]
@@ -87,6 +90,7 @@ scroll_scale = Vector2(0.1, 0.1)
 repeat_size = Vector2(640, 360)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
@@ -97,6 +101,7 @@ scroll_scale = Vector2(0, 0)
 repeat_size = Vector2(640, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/moon"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
@@ -108,6 +113,7 @@ repeat_size = Vector2(640, 0)
 script = SubResource("GDScript_4haeq")
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
+texture_filter = 1
 position = Vector2(320, 180)
 texture = ExtResource("4_4haeq")
 region_enabled = true
@@ -123,11 +129,12 @@ planted = true
 
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_4haeq")
+material = SubResource("ShaderMaterial_ne7xc")
 position = Vector2(320, 574)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
+color = Color(0.36, 0.9, 0.711, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
