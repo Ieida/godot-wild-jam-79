@@ -10,21 +10,21 @@ Assets
 [ ] Tilemap
 [ ] Plant/Towers
 [ ] Enemies
-    [ ] come up with types of enemies here
+	[ ] come up with types of enemies here
 
 
 Game design
 -----------
 
 [ ] Wave System
-[ ] Enemy Spawning
-    [ ] item drops
-[ ] Tree Health
-    [ ] game over on tree death
+[■] Enemy Spawning
+	[ ] item drops
+[■] Tree Health
+	[■] game over on tree death
 [ ] Plant Towers
-    [ ] placing plants
-    [ ] growth time
-    [ ] combining with other plants/enemy drops
-    [ ] plant health/attack by enemies
+	[■] placing plants
+	[■] growth time
+	[ ] combining with other plants/enemy drops
+	[■] plant health/attack by enemies
 [ ] currency to buy towers
 [ ] upgrades to apply to towers (optional, if there is time)
