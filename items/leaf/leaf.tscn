@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://bn5ornumitp58"]
+
+[ext_resource type="PackedScene" uid="uid://v2cdq1p4fism" path="res://elements/item/item.tscn" id="1_cmwbr"]
+[ext_resource type="Texture2D" uid="uid://cdfgpnet22a3g" path="res://assets/ui.png" id="2_8kx1w"]
+[ext_resource type="Script" uid="uid://df7xaw8qg5uw8" path="res://items/leaf/leaf.gd" id="2_sduw0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8kx1w"]
+size = Vector2(14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sduw0"]
+atlas = ExtResource("2_8kx1w")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_11hda"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sduw0")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_8kx1w"]
+resource_name = "healer"
+script/source = "extends Area2D
+
+
+@onready var leaf: Leaf = $\"..\"
+
+
+func _on_leaf_dropped():
+	for b in get_overlapping_bodies():
+		if b.is_in_group(&\"plant_colliders\"):
+			var p = b.get_parent() as Plant
+			if p and not p.hitbox.full:
+				p.hitbox.heal(leaf.heal_amount)
+				print(\"healed %s\" % p.name)
+				leaf.queue_free()
+				break
+
+
+func _ready() -> void:
+	leaf.dropped.connect(_on_leaf_dropped)
+"
+
+[node name="Leaf" instance=ExtResource("1_cmwbr")]
+script = ExtResource("2_sduw0")
+heal_amount = 50.0
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_8kx1w")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_11hda")
+autoplay = "default"
+
+[node name="Healer" type="Area2D" parent="." index="3"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = SubResource("GDScript_8kx1w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Healer" index="0"]
+shape = SubResource("RectangleShape2D_8kx1w")

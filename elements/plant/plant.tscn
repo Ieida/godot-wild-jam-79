@@ -8,6 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_abyum"]
 
 [node name="Plant" type="ShapeCast2D"]
+z_index = -1
 enabled = false
 shape = SubResource("RectangleShape2D_abyum")
 collision_mask = 3

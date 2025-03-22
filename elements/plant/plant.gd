@@ -11,6 +11,7 @@ class_name Plant extends ShapeCast2D
 @export var max_age: float
 @onready var collider: CollisionObject2D = $Collider
 @onready var hitbox: Hitbox = $Hitbox
+@onready var initial_z_index: int = z_index
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision_area: Area2D = $VisionArea
 var age: float
@@ -37,6 +38,8 @@ func _ready() -> void:
 	vision_area.body_exited.connect(_on_vision_body_exited)
 	if planted:
 		collider.process_mode = Node.PROCESS_MODE_INHERIT
+	else:
+		z_index = 1
 
 
 func can_be_planted() -> bool:
@@ -74,4 +77,5 @@ func plant():
 		pos.y -= shape.size.y / 2.0
 	global_position = pos
 	collider.process_mode = Node.PROCESS_MODE_INHERIT
+	z_index = initial_z_index
 	planted = true
