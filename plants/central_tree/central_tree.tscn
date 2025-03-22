@@ -141,7 +141,7 @@ position = Vector2(-8, -16)
 active = true
 spawn_points = Array[Vector2]([Vector2(0, 0), Vector2(32, -16), Vector2(16, -16), Vector2(16, 16)])
 spawnee_scene = ExtResource("3_f7jjs")
-interval = 5.0
+interval = 10.0
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_s72tg")
