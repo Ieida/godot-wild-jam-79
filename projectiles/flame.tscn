@@ -1,0 +1,96 @@
+[gd_scene load_steps=15 format=3 uid="uid://dl1qtd1trk385"]
+
+[ext_resource type="PackedScene" uid="uid://cfa1hbldoehy" path="res://elements/projectile/projectile.tscn" id="1_hkb3g"]
+[ext_resource type="Texture2D" uid="uid://cffox0yq1p8or" path="res://assets/flame.png" id="2_hkb3g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lsq3o"]
+radius = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qk7tj"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojmg7"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hydgm"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 64, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1383"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 96, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsv4w"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 128, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffa7u"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 160, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7oyw"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 192, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4iekn"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 224, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmcpd"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 256, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hpfn"]
+atlas = ExtResource("2_hkb3g")
+region = Rect2(0, 288, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p63hj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qk7tj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojmg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hydgm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1383")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vsv4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffa7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7oyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4iekn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmcpd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hpfn")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}]
+
+[node name="Flame" instance=ExtResource("1_hkb3g")]
+shape = SubResource("CircleShape2D_lsq3o")
+avoid_plants = true
+speed = 128.0
+
+[node name="Sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_p63hj")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(16, 0)
