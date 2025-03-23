@@ -9,6 +9,7 @@ uniform float wave_strength = 2.;
 uniform float y_scale;
 uniform float y_zoom;
 uniform bool editor;
+uniform bool waves = true;
 
 void fragment() {
 	vec2 uv = UV;
@@ -23,6 +24,12 @@ void fragment() {
 	if (editor) {uv_y *= y_zoom;}
 	vec2 reflected_uv = vec2(SCREEN_UV.x, SCREEN_UV.y - uv_y);
 
-	vec4 waves = texture(screen_texture, reflected_uv + _noise * y_zoom * (wave_strength / 100.0));
-	COLOR = waves * color;
+	if (waves) {
+		vec4 _waves = texture(screen_texture, reflected_uv + _noise * y_zoom * (wave_strength / 100.));
+		COLOR = _waves * color;
+	}
+	else {
+		vec4 clr = texture(screen_texture, reflected_uv + (y_zoom * (wave_strength / 100.)));
+		COLOR = clr * color;
+	}
 }

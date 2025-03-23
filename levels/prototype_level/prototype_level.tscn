@@ -182,8 +182,9 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 0.5
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 0.620921
+shader_parameter/y_zoom = 1.4641
 shader_parameter/editor = true
+shader_parameter/waves = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
 resource_name = "water"
@@ -207,6 +208,13 @@ func _process(_delta: float) -> void:
 		mat.set_shader_parameter(&\"y_zoom\", get_viewport_transform().get_scale().y)
 		mat.set_shader_parameter(&\"editor\", Engine.is_editor_hint())
 		mat.set_shader_parameter(&\"color\", color)
+
+
+func _ready() -> void:
+	if not mat: mat = material as ShaderMaterial
+	if mat:
+		var osn = OS.get_name()
+		mat.set_shader_parameter(&\"waves\", osn != \"Web\")
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ne7xc"]
@@ -344,7 +352,7 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_ne7xc")
-position = Vector2(320, 574.02)
+position = Vector2(320, 575.699)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
