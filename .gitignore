@@ -3,4 +3,4 @@
 /android/
 
 # Custom ignores
-./builds
+.builds/
