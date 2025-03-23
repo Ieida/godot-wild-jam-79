@@ -42,6 +42,7 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [node name="UISlot" type="Button"]
+texture_filter = 1
 clip_contents = true
 custom_minimum_size = Vector2(64, 64)
 anchors_preset = 8
