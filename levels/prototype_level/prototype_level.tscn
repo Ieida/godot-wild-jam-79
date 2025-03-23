@@ -182,7 +182,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 0.5
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 1.4641
+shader_parameter/y_zoom = 1.94872
 shader_parameter/editor = true
 shader_parameter/waves = true
 
@@ -256,7 +256,7 @@ alignment = 2
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Place a plant near the Tree of Life"
+text = "Plant near the tree"
 label_settings = ExtResource("1_n5o34")
 
 [node name="SlotHighlight" type="Panel" parent="Tutorial/MarginContainer/VBoxContainer"]
@@ -274,7 +274,7 @@ offset_top = 182.0
 offset_right = 433.0
 offset_bottom = 211.0
 size_flags_horizontal = 4
-text = "Drag and drop leaves onto plants
+text = "Drop leaves onto plants
 to grow and heal them"
 label_settings = ExtResource("1_n5o34")
 horizontal_alignment = 1
@@ -352,7 +352,7 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_ne7xc")
-position = Vector2(320, 575.699)
+position = Vector2(320, 574.489)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")

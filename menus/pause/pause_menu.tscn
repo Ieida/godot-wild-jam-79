@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://brvmab4otdptx"]
+[gd_scene load_steps=4 format=3 uid="uid://brvmab4otdptx"]
 
 [ext_resource type="Script" uid="uid://bkhn5ieq4cnos" path="res://menus/pause/pause_menu.gd" id="1_s0u37"]
+[ext_resource type="FontFile" uid="uid://c4v1u2lripjf2" path="res://fonts/AdapaMono.otf" id="2_8vgpe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8v8v"]
-bg_color = Color(0, 0, 0, 0.666667)
+bg_color = Color(0, 0, 0, 0.498039)
 
 [node name="PauseMenu" type="PanelContainer"]
 process_mode = 3
@@ -19,6 +20,9 @@ script = ExtResource("1_s0u37")
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_8vgpe")
+theme_override_font_sizes/font_size = 26
 text = "Game Paused"
 horizontal_alignment = 1
