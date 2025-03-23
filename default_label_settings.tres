@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dpgln2xse33m1"]
+
+[ext_resource type="FontFile" uid="uid://c4v1u2lripjf2" path="res://fonts/AdapaMono.otf" id="1_sqovg"]
+
+[resource]
+font = ExtResource("1_sqovg")
+font_size = 13
+shadow_color = Color(0, 0, 0, 1)
