@@ -67,6 +67,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeafHint:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 44, 45, 50, 51),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_n5o34"]
 length = 0.001
@@ -89,6 +101,18 @@ tracks/1/path = NodePath("MarginContainer/VBoxContainer/Select:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeafHint:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -235,6 +259,18 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_gkmj7")
 
+[node name="LeafHint" type="Label" parent="Tutorial"]
+texture_filter = 1
+offset_left = 223.0
+offset_top = 182.0
+offset_right = 433.0
+offset_bottom = 211.0
+size_flags_horizontal = 4
+text = "Drag and drop leaves onto plants
+to grow and heal them"
+label_settings = ExtResource("1_n5o34")
+horizontal_alignment = 1
+
 [node name="ParallaxBackground" type="Node2D" parent="."]
 z_index = -4096
 
@@ -308,7 +344,7 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_ne7xc")
-position = Vector2(320, 574.943)
+position = Vector2(320, 575)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
