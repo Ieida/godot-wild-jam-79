@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bd5qcs08srar7"]
+[gd_scene load_steps=19 format=3 uid="uid://bd5qcs08srar7"]
 
 [ext_resource type="Script" uid="uid://dmjgiq3pyu8oh" path="res://ui/slot_holder.gd" id="1_b51c3"]
 [ext_resource type="PackedScene" uid="uid://hb44if87lvqr" path="res://ui/slot/ui_slot.tscn" id="2_338lt"]
@@ -148,6 +148,20 @@ metadata/_custom_type_script = "uid://djkw4r8ipr3n8"
 atlas = ExtResource("9_onqbq")
 region = Rect2(0, 96, 32, 32)
 
+[sub_resource type="GDScript" id="GDScript_onqbq"]
+resource_name = "curtain"
+script/source = "extends ColorRect
+
+
+@export var raise_duration: float
+
+
+func _ready() -> void:
+	show()
+	var t = create_tween()
+	t.tween_property(self, ^\"color\", Color(0, 0, 0, 0), raise_duration)
+"
+
 [node name="Player" type="Node"]
 
 [node name="Planter" type="Node" parent="."]
@@ -200,6 +214,18 @@ item = SubResource("Resource_v2c1w")
 
 [node name="TextureRect" parent="UI/MarginContainer/PlantSlots/UISlot3" index="0"]
 texture = SubResource("AtlasTexture_t6jt4")
+
+[node name="Curtain" type="ColorRect" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_onqbq")
+raise_duration = 10.0
 
 [editable path="UI/MarginContainer/PlantSlots/UISlot"]
 [editable path="UI/MarginContainer/PlantSlots/UISlot2"]

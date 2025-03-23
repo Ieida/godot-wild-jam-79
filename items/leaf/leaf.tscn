@@ -18,8 +18,16 @@ script/source = "extends Area2D
 func _on_leaf_dropped():
 	for b in get_overlapping_bodies():
 		if b is Plant:
+			var sb := false
+			
+			if b.age < b.max_age:
+				b.age += leaf.age_amount * (1. / b.age_speed)
+				sb = true
 			if not b.hitbox.full:
 				b.hitbox.heal(leaf.heal_amount)
+				sb = true
+				
+			if sb:
 				leaf.queue_free()
 				break
 
@@ -46,7 +54,9 @@ animations = [{
 
 [node name="Leaf" instance=ExtResource("1_cmwbr")]
 script = ExtResource("2_sduw0")
+age_amount = 10.0
 heal_amount = 50.0
+gravity = 9.8
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_8kx1w")

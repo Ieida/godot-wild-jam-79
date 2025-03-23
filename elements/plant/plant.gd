@@ -18,14 +18,12 @@ class_name Plant extends CharacterBody2D
 @onready var sprite_material: ShaderMaterial = sprite.material
 @onready var state_machine: StateMachine = $StateMachine
 @onready var vision_area: Area2D = $VisionArea
-var age: float
+var age: float = 1.
 var visible_enemies: Array[Enemy]
 
 
-func _on_hitbox_healed(_amount: float):
-	if sprite_material:
-		sprite_material.set_shader_parameter(&"saturation", hitbox.get_health_normalized())
-		state_machine.activate_state(&"idle")
+func _on_healed(_amount: float):
+	pass
 
 
 func _on_vision_body_entered(body: Node2D):
@@ -38,19 +36,21 @@ func _on_vision_body_exited(body: Node2D):
 		visible_enemies.erase(body)
 
 
-func _physics_process(delta: float) -> void:
-	if planted: age += (1.0 / age_speed) * delta
+func _process(_delta: float) -> void:
+	var hn = hitbox.get_health_normalized()
+	sprite_material.set_shader_parameter(&"saturation", hn)
 
 
 func _ready() -> void:
 	collision_shape.disabled = true
-	hitbox.healed.connect(_on_hitbox_healed)
+	hitbox.healed.connect(_on_healed)
 	vision_area.body_entered.connect(_on_vision_body_entered)
 	vision_area.body_exited.connect(_on_vision_body_exited)
 	if planted:
 		collision_shape.disabled = false
 	else:
 		z_index = 1
+		hitbox.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func can_be_planted() -> bool:
@@ -96,4 +96,5 @@ func plant():
 	global_position = pos
 	collision_shape.disabled = false
 	z_index = initial_z_index
+	hitbox.process_mode = Node.PROCESS_MODE_INHERIT
 	planted = true

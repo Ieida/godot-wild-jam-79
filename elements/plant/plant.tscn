@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dr3av80rwwqwb"]
+[gd_scene load_steps=12 format=3 uid="uid://dr3av80rwwqwb"]
 
 [ext_resource type="Script" uid="uid://du1oddbbp34tp" path="res://elements/plant/plant.gd" id="1_3x88q"]
 [ext_resource type="Material" uid="uid://cql3f8ciqqh5s" path="res://materials/sprite_material.tres" id="2_7e5m0"]
@@ -15,6 +15,125 @@ radius = 128.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kkrnm"]
 resource_local_to_scene = true
+
+[sub_resource type="GDScript" id="GDScript_kkrnm"]
+resource_name = "grow"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _physics_process(delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+	
+	if active:
+		plant.age += (1.0 / plant.age_speed) * delta
+		
+		var age = minf(plant.max_age - 1.0, plant.age)
+		# Play animation based on age
+		var anim_name = &\"age_%s\" % floori(age)
+		plant.sprite.play(anim_name)
+		if plant.age >= plant.max_age - 1.0: machine.deactivate_state()
+
+
+func should_enter() -> bool:
+	if not plant.planted: return false
+	if machine.active_state != NULL_STATE: return false
+	if plant.age >= plant.max_age: return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_fqu5p"]
+resource_name = "idle"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _physics_process(_delta: float) -> void:
+	if not active and should_enter():
+		machine.activate_state(name)
+
+
+func enter():
+	plant.sprite.play(&\"idle\")
+
+
+func should_enter() -> bool:
+	if machine.active_state != NULL_STATE: return false
+	if plant.age < plant.max_age: return false
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_bya4f"]
+resource_name = "hit"
+script/source = "extends State
+
+
+@export var duration: float = 0.1
+@onready var plant: Plant = $\"../..\"
+var material: ShaderMaterial
+var time_elapsed: float
+
+
+func _on_hitbox_hit():
+	machine.activate_state(name)
+
+
+func _physics_process(delta: float) -> void:
+	if active:
+		time_elapsed += delta
+		if time_elapsed >= duration:
+			machine.deactivate_state()
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.hitbox.hit.connect(_on_hitbox_hit)
+	material = plant.sprite.material
+
+
+func enter():
+	time_elapsed = 0
+	plant.sprite.stop()
+	if material:
+		material.set_shader_parameter(&\"flash\", true)
+
+
+func exit():
+	if material:
+		material.set_shader_parameter(&\"flash\", false)
+"
+
+[sub_resource type="GDScript" id="GDScript_y05d3"]
+resource_name = "withered"
+script/source = "extends State
+
+
+@onready var plant: Plant = $\"../..\"
+
+
+func _on_healed(_amount: float):
+	if active: machine.deactivate_state()
+
+
+func _on_hitbox_depleted():
+	machine.activate_state(name)
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.hitbox.depleted.connect(_on_hitbox_depleted)
+	plant.hitbox.healed.connect(_on_healed)
+
+
+func enter():
+	var hn = plant.hitbox.get_health_normalized()
+	plant.sprite_material.set_shader_parameter(&\"saturation\", hn)
+"
 
 [node name="Plant" type="CharacterBody2D"]
 z_index = -1
@@ -59,3 +178,15 @@ sprite_frames = SubResource("SpriteFrames_kkrnm")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_abyum")
+
+[node name="grow" type="Node" parent="StateMachine"]
+script = SubResource("GDScript_kkrnm")
+
+[node name="idle" type="Node" parent="StateMachine"]
+script = SubResource("GDScript_fqu5p")
+
+[node name="hit" type="Node" parent="StateMachine"]
+script = SubResource("GDScript_bya4f")
+
+[node name="withered" type="Node" parent="StateMachine"]
+script = SubResource("GDScript_y05d3")

@@ -31,7 +31,7 @@ animations = [{
 [node name="RosePrickle" instance=ExtResource("1_12p4g")]
 shape = SubResource("CircleShape2D_lsq3o")
 avoid_plants = true
-speed = 128.0
+speed = 256.0
 
 [node name="Sprite" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_p63hj")

@@ -2,6 +2,7 @@ class_name Enemy extends CharacterBody2D
 
 
 @export var attack_cooldown: float = 2
+@export var attack_range: float = 16
 @export var damage: float = 10
 @export var gravity: float = 980
 @export var speed: float = 64
@@ -35,8 +36,23 @@ func get_closest_plant() -> Plant:
 	for plant in visible_plants:
 		if plant.hitbox.is_depleted: continue
 		
-		var d := pos.distance_to(plant.global_position)
+		var d: float = pos.distance_to(plant.global_position)
 		if d < cd:
 			cp = plant
 			cd = d
 	return cp
+
+
+func get_plants_within_range(rang: float) -> Array[Plant]:
+	var plnts: Array[Plant] = []
+	if visible_plants.size() == 0: return plnts
+	
+	var pos: Vector2 = global_position
+	
+	for plnt in visible_plants:
+		if plnt.hitbox.is_depleted: continue
+		
+		var d: float = pos.distance_to(plnt.global_position)
+		if d <= rang: plnts.append(plnt)
+	
+	return plnts

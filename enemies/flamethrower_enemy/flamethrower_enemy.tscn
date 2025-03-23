@@ -1,6 +1,7 @@
-[gd_scene load_steps=43 format=3 uid="uid://ddyncyqlliqgy"]
+[gd_scene load_steps=45 format=3 uid="uid://ddyncyqlliqgy"]
 
 [ext_resource type="PackedScene" uid="uid://c4erfuu3talem" path="res://elements/enemy/enemy.tscn" id="1_6havl"]
+[ext_resource type="Script" uid="uid://dl47vs0rjr3pk" path="res://elements/hurtbox/hurtbox.gd" id="2_glpdc"]
 [ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_mlkhv"]
 [ext_resource type="Texture2D" uid="uid://bmwliv4p3medu" path="res://assets/enemy2.png" id="3_b1o0a"]
 [ext_resource type="Texture2D" uid="uid://cy53jorao34ka" path="res://assets/enemy2_2.png" id="3_ksccu"]
@@ -8,11 +9,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndtht"]
 size = Vector2(12, 26)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wt2ap"]
+size = Vector2(71, 13.5)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eg25p"]
 resource_local_to_scene = true
 shader = ExtResource("2_mlkhv")
 shader_parameter/flash = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_glpdc"]
 atlas = ExtResource("3_ksccu")
@@ -312,10 +317,9 @@ resource_name = "attack"
 script/source = "extends State
 
 
-@export var time_until_hit: float = 0.86
+@export var hit_frame: int
 @onready var enemy: Enemy = $\"../..\"
-var has_hit: bool
-var time_elapsed: float
+@onready var hurtbox: Hurtbox = $\"../../Hurtbox\"
 
 
 func _on_anim_finished():
@@ -323,32 +327,37 @@ func _on_anim_finished():
 		machine.deactivate_state()
 
 
-func _physics_process(delta: float) -> void:
+func _on_frame_changed():
+	if active and enemy.sprite.animation == &\"attack\":
+		if enemy.sprite.frame == hit_frame:
+			hurtbox.active = true
+
+
+func _physics_process(_delta: float) -> void:
 	if should_enter(): machine.activate_state(name)
-	
-	if active and not has_hit:
-		time_elapsed += delta
-		if time_elapsed >= time_until_hit:
-			hit()
-			has_hit = true
 
 
 func _ready() -> void:
 	await enemy.ready
 	enemy.sprite.animation_finished.connect(_on_anim_finished)
+	enemy.sprite.frame_changed.connect(_on_frame_changed)
+	hurtbox.damage = enemy.damage
 
 
 func enter():
-	time_elapsed = 0
-	has_hit = false
 	enemy.velocity = Vector2.ZERO
 	enemy.sprite.play(&\"attack\")
+	var cp = enemy.get_closest_plant()
+	var fwd = Vector2.RIGHT
+	var dtp = enemy.global_position.direction_to(cp.global_position)
+	var dt = fwd.dot(dtp)
+	var f = dt < 0.
+	enemy.sprite.flip_h = f
+	hurtbox.flipped = f
 
 
-func hit():
-	var plant = enemy.get_closest_plant()
-	if plant:
-		plant.hitbox.take_hit(enemy.damage)
+func exit():
+	hurtbox.active = false
 
 
 func should_enter() -> bool:
@@ -357,10 +366,11 @@ func should_enter() -> bool:
 	if enemy.visible_plants.size() == 0: return false
 	if enemy.hitbox.is_depleted: return false
 	var p = enemy.get_closest_plant()
+	if not p: return false
 	var plnt_pos = p.global_position
 	plnt_pos.y = enemy.global_position.y
 	var dst = enemy.global_position.distance_to(plnt_pos)
-	if dst > 48.0: return false
+	if dst > enemy.attack_range: return false
 	return true
 "
 
@@ -433,21 +443,33 @@ func enter():
 "
 
 [node name="FlamethrowerEnemy" instance=ExtResource("1_6havl")]
-damage = 50.0
+attack_range = 48.0
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_ndtht")
 
-[node name="Hitbox" parent="." index="1"]
-max_health = 100.0
-
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 shape = SubResource("RectangleShape2D_ndtht")
 
-[node name="AnimatedSprite2D" parent="." index="3"]
+[node name="Hurtbox" type="Area2D" parent="." index="3"]
+position = Vector2(35, 2)
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("2_glpdc")
+avoid_enemies = true
+metadata/_custom_type_script = "uid://dl47vs0rjr3pk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0.5, -0.25)
+shape = SubResource("RectangleShape2D_wt2ap")
+
+[node name="AnimatedSprite2D" parent="." index="4"]
 material = SubResource("ShaderMaterial_eg25p")
 sprite_frames = SubResource("SpriteFrames_j7boo")
 animation = &"attack"
+frame = 12
+frame_progress = 1.0
 
 [node name="idle" type="Node" parent="StateMachine" index="0"]
 script = SubResource("GDScript_ndtht")
@@ -457,7 +479,7 @@ script = SubResource("GDScript_eg25p")
 
 [node name="attack" type="Node" parent="StateMachine" index="2"]
 script = SubResource("GDScript_7af5o")
-time_until_hit = 1.0
+hit_frame = 3
 
 [node name="hit" type="Node" parent="StateMachine" index="3"]
 script = SubResource("GDScript_npsc1")
@@ -466,6 +488,3 @@ reactivate = true
 
 [node name="death" type="Node" parent="StateMachine" index="4"]
 script = SubResource("GDScript_2i4xe")
-
-[node name="ProjectileSpawnPoint" type="Node2D" parent="." index="5"]
-position = Vector2(6, 7)

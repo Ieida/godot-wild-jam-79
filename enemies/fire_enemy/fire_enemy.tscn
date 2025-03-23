@@ -284,7 +284,7 @@ func should_enter() -> bool:
 	var plnt_pos = p.global_position
 	plnt_pos.y = enemy.global_position.y
 	var dst = enemy.global_position.distance_to(plnt_pos)
-	if dst > 16.0: return false
+	if dst > enemy.attack_range: return false
 	return true
 "
 
