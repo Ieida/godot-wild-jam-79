@@ -25,7 +25,9 @@ func _ready() -> void:
 
 func take_screenshot():
 	var i = get_viewport().get_texture().get_image()
-	i.save_png(\"user://screenshot.png\")
+	var t = Time.get_datetime_string_from_system()
+	t = t.replace(\":\", \"-\")
+	i.save_png(\"user://screenshot_%s.png\" % t)
 "
 
 [node name="Game" type="Node"]

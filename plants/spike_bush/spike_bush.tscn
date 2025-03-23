@@ -7,7 +7,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ot1dw"]
 resource_local_to_scene = true
-size = Vector2(20, 32)
+size = Vector2(20, 30)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_knupg"]
 resource_local_to_scene = true
@@ -208,7 +208,6 @@ func should_enter() -> bool:
 [node name="SpikeBush" instance=ExtResource("1_ft8kr")]
 age_speed = 30.0
 attack_cooldown = 3.0
-damage = 130.0
 max_age = 4.0
 
 [node name="CollisionShape2D" parent="." index="0"]
