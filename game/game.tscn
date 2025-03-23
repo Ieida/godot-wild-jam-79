@@ -1,9 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddivstsp7iqvx"]
+[gd_scene load_steps=6 format=3 uid="uid://ddivstsp7iqvx"]
 
 [ext_resource type="Script" uid="uid://d1sodedm54bqr" path="res://game/game.gd" id="1_l1rk1"]
 [ext_resource type="PackedScene" uid="uid://dumgt3u0r5i1i" path="res://levels/prototype_level/prototype_level.tscn" id="2_vasa2"]
 [ext_resource type="PackedScene" uid="uid://brvmab4otdptx" path="res://menus/pause/pause_menu.tscn" id="3_h7iqs"]
 [ext_resource type="PackedScene" uid="uid://8tag6l5me2j6" path="res://menus/game_over/game_over.tscn" id="4_4fuuu"]
+
+[sub_resource type="GDScript" id="GDScript_4fuuu"]
+resource_name = "screenshot"
+script/source = "extends Node
+
+
+var windows: bool
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action(&\"screenshot\"):
+		if event.is_pressed() and not event.is_echo():
+			take_screenshot()
+
+
+func _ready() -> void:
+	windows = OS.get_name() == \"Windows\"
+
+
+func take_screenshot():
+	var i = get_viewport().get_texture().get_image()
+	i.save_png(\"user://screenshot.png\")
+"
 
 [node name="Game" type="Node"]
 script = ExtResource("1_l1rk1")
@@ -18,3 +41,6 @@ layer = 128
 [node name="PauseMenu" parent="Menus" instance=ExtResource("3_h7iqs")]
 
 [node name="GameOver" parent="Menus" instance=ExtResource("4_4fuuu")]
+
+[node name="Screenshot" type="Node" parent="."]
+script = SubResource("GDScript_4fuuu")
