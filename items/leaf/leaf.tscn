@@ -16,18 +16,20 @@ script/source = "extends Area2D
 
 
 func _on_leaf_dropped():
-	for b in get_overlapping_bodies():
-		if b is Plant:
-			var sb := false
+	for a in get_overlapping_areas():
+		if a is Hitbox:
+			var b := false
+			var p = a.get_parent() as Plant
+			if not p: continue
 			
-			if b.age < b.max_age:
-				b.age += leaf.age_amount * (1. / b.age_speed)
-				sb = true
-			if not b.hitbox.full:
-				b.hitbox.heal(leaf.heal_amount)
-				sb = true
+			if p.age < p.max_age:
+				p.age += leaf.age_amount * (1. / p.age_speed)
+				b = true
+			if not a.full:
+				a.heal(leaf.heal_amount)
+				b = true
 				
-			if sb:
+			if b:
 				leaf.queue_free()
 				break
 
@@ -63,7 +65,7 @@ shape = SubResource("RectangleShape2D_8kx1w")
 
 [node name="Healer" type="Area2D" parent="." index="1"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 8
 monitorable = false
 script = SubResource("GDScript_8kx1w")
 

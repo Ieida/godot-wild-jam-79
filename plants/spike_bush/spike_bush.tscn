@@ -1,0 +1,247 @@
+[gd_scene load_steps=23 format=3 uid="uid://donasr0bnfnuf"]
+
+[ext_resource type="PackedScene" uid="uid://dr3av80rwwqwb" path="res://elements/plant/plant.tscn" id="1_ft8kr"]
+[ext_resource type="Script" uid="uid://dl47vs0rjr3pk" path="res://elements/hurtbox/hurtbox.gd" id="2_ot1dw"]
+[ext_resource type="Shader" uid="uid://bsij6f2n1k3mn" path="res://shaders/sprite_shader.gdshader" id="2_spp11"]
+[ext_resource type="Texture2D" uid="uid://dasyb27pa1c0e" path="res://assets/spike bush.png" id="3_spp11"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ot1dw"]
+resource_local_to_scene = true
+size = Vector2(20, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_knupg"]
+resource_local_to_scene = true
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ot1dw"]
+radius = 16.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ox5is"]
+resource_local_to_scene = true
+shader = ExtResource("2_spp11")
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ot1dw"]
+atlas = ExtResource("3_spp11")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knupg"]
+atlas = ExtResource("3_spp11")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ox5is"]
+atlas = ExtResource("3_spp11")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvg3o"]
+atlas = ExtResource("3_spp11")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spp11"]
+atlas = ExtResource("3_spp11")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8wso"]
+atlas = ExtResource("3_spp11")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52qva"]
+atlas = ExtResource("3_spp11")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwtth"]
+atlas = ExtResource("3_spp11")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kb37x"]
+atlas = ExtResource("3_spp11")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvh7d"]
+atlas = ExtResource("3_spp11")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nii2q"]
+atlas = ExtResource("3_spp11")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0uc15"]
+atlas = ExtResource("3_spp11")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dvg3o"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ot1dw")
+}],
+"loop": true,
+"name": &"age_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knupg")
+}],
+"loop": true,
+"name": &"age_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ox5is")
+}],
+"loop": true,
+"name": &"age_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvg3o")
+}],
+"loop": true,
+"name": &"age_4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spp11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8wso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52qva")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwtth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kb37x")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xvh7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nii2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0uc15")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.5
+}]
+
+[sub_resource type="GDScript" id="GDScript_spp11"]
+resource_name = "attack"
+script/source = "extends State
+
+
+@export var hit_frame: int
+@onready var hurtbox: Hurtbox = $\"../../Hurtbox\"
+@onready var plant: Plant = $\"../..\"
+var time_elapsed: float
+
+
+func _on_anim_finished():
+	if active and plant.sprite.animation == &\"attack\":
+		machine.deactivate_state()
+
+
+func _on_frame_changed():
+	if active and plant.sprite.frame == hit_frame:
+		hurtbox.active = true
+
+
+func _physics_process(delta: float) -> void:
+	if not plant.collision_shape.disabled and plant.planted:
+		plant.collision_shape.disabled = true
+	
+	if time_elapsed < plant.attack_cooldown:
+		time_elapsed = minf(plant.attack_cooldown, time_elapsed + delta)
+	
+	if should_enter(): machine.activate_state(name)
+
+
+func _ready() -> void:
+	await plant.ready
+	plant.sprite.animation_finished.connect(_on_anim_finished)
+	plant.sprite.frame_changed.connect(_on_frame_changed)
+	hurtbox.damage = plant.damage
+
+
+func enter():
+	plant.sprite.play(&\"attack\")
+	time_elapsed = 0
+	var e = plant.get_closest_enemy()
+	if e:
+		var de = plant.global_position.direction_to(e.global_position)
+		var d = Vector2.RIGHT.dot(de)
+		var f = d < 0.0
+		plant.sprite.flip_h = f
+		plant.sprite.offset.x = -absf(plant.sprite.offset.x) if f else absf(plant.sprite.offset.x)
+
+
+func exit():
+	hurtbox.active = false
+
+
+func should_enter() -> bool:
+	if active: return false
+	if machine.active_state == &\"hit\": return false
+	if time_elapsed < plant.attack_cooldown: return false
+	if plant.age < plant.max_age: return false
+	if plant.visible_enemies.size() == 0: return false
+	if machine.active_state == &\"withered\": return false
+	return true
+"
+
+[node name="SpikeBush" instance=ExtResource("1_ft8kr")]
+age_speed = 30.0
+attack_cooldown = 3.0
+damage = 130.0
+max_age = 4.0
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_ot1dw")
+
+[node name="ShapeCast" parent="." index="1"]
+shape = SubResource("RectangleShape2D_ot1dw")
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_ot1dw")
+
+[node name="CollisionShape2D" parent="VisionArea" index="0"]
+shape = SubResource("CircleShape2D_knupg")
+
+[node name="Hurtbox" type="Area2D" parent="." index="5"]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("2_ot1dw")
+avoid_plants = true
+metadata/_custom_type_script = "uid://dl47vs0rjr3pk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CircleShape2D_ot1dw")
+
+[node name="AnimatedSprite2D" parent="." index="6"]
+material = SubResource("ShaderMaterial_ox5is")
+sprite_frames = SubResource("SpriteFrames_dvg3o")
+animation = &"attack"
+autoplay = "age_1"
+frame = 2
+frame_progress = 0.649006
+
+[node name="attack" type="Node" parent="StateMachine" index="2"]
+script = SubResource("GDScript_spp11")
+hit_frame = 1

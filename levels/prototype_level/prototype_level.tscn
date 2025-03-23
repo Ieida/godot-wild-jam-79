@@ -43,13 +43,17 @@ resource_name = "cloud_movement"
 script/source = "extends Parallax2D
 
 @export var CLOUD_SPEED: float = 5
+@export var variation: bool
 
 func _process(delta: float) -> void:
-	var st = Time.get_unix_time_from_system()
-	var t = maxf(.2, (1. + sin(st * .1)) / 2.)
-	var t2 = maxf(.2, (1. + sin(st * .05)) / 2.)
-	var ft = t * t2
-	self.scroll_offset.x += ft * CLOUD_SPEED * delta
+	if variation:
+		var st = Time.get_unix_time_from_system()
+		var t = maxf(.2, (1. + sin(st * .1)) / 2.)
+		var t2 = maxf(.2, (1. + sin(st * .05)) / 2.)
+		var ft = t * t2
+		self.scroll_offset.x += ft * CLOUD_SPEED * delta
+	else:
+		self.scroll_offset.x += CLOUD_SPEED * delta
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3grcs"]
@@ -68,7 +72,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_4haeq")
 shader_parameter/speed = Vector2(0.03, 0.07)
 shader_parameter/wave_strength = 0.5
 shader_parameter/y_scale = 7.5
-shader_parameter/y_zoom = 6.7275
+shader_parameter/y_zoom = 1.21
 shader_parameter/editor = true
 
 [sub_resource type="GDScript" id="GDScript_3grcs"]
@@ -114,7 +118,7 @@ z_index = -4096
 scroll_scale = Vector2(0.1, 0.1)
 repeat_size = Vector2(640, 360)
 script = SubResource("GDScript_4haeq")
-CLOUD_SPEED = 1.0
+CLOUD_SPEED = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
 texture_filter = 1
@@ -138,6 +142,7 @@ region_rect = Rect2(0, 360, 640, 360)
 scroll_scale = Vector2(0.3, 0.3)
 repeat_size = Vector2(640, 0)
 script = SubResource("GDScript_4haeq")
+variation = true
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/clouds"]
 texture_filter = 1
@@ -169,7 +174,7 @@ tile_set = ExtResource("1_8nyvn")
 [node name="Water" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_ne7xc")
-position = Vector2(320, 575.999)
+position = Vector2(320, 575.487)
 scale = Vector2(5, 5)
 texture = ExtResource("5_3grcs")
 script = SubResource("GDScript_3grcs")
